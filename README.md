@@ -26,6 +26,12 @@ A graphical user defaults editor for macOS.
 - Ability to edit contents of arrays and dictionaries
 - Implement Rename, which moves value to new key
 - Duplicate, which copies value to new key
+- Relaunch button when editing app defaults
+- Tweak the default window size
+- Open new editor window upon relaunch (dock icon clicked with no open windows)
 
 ## Bugs
-- `com.apple.finder` doesn’t load properly. Will look into it… sometime.
+- `com.apple.finder`, `com.apple.dt.Xcode` and possibly a few more domains don’t load properly. It seems their databases are somehow too big for the `defaults export` command. Will look into it… sometime.
+- If an add or edit is confirmed after changing the data type, the actual saved value is blank, rather than the displayed default. Most noticeable for “Boolean”. **Workaround**: To set a value to False, select True, then False again.
+- Cannot tab into domain/default lists from filter bar
+- Domain list filter bar placeholder text doesn’t currently show
