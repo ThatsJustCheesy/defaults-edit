@@ -21,7 +21,6 @@ A graphical user defaults editor for macOS.
 ![Available property list types](Screenshots/4.png)
 
 ## Todos
-- UI to edit the global domain
 - Ability to add arrays and dictionaries
 - Ability to edit contents of arrays and dictionaries
 - Implement Rename, which moves value to new key
