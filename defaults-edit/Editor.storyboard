@@ -104,7 +104,7 @@
                                                     </segments>
                                                 </segmentedCell>
                                                 <connections>
-                                                    <binding destination="XfG-lQ-9wD" name="selectedIndex" keyPath="showingAllVisibleDefaults" id="iRs-Pw-jOY">
+                                                    <binding destination="XfG-lQ-9wD" name="selectedIndex" keyPath="showingDefaultsEffectiveInDomain" id="ZrT-tC-mAf">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">#NOT[NSNegateBoolean]</string>
                                                         </dictionary>
@@ -168,12 +168,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="viewTypeSC" destination="ZuN-ML-MAy" id="nf9-a7-lWn"/>
                         <segue destination="5uI-u9-9NE" kind="sheet" identifier="ShowOpenSheet" id="kdr-FA-b6T"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-270.5" y="761"/>
+            <point key="canvasLocation" x="-271" y="761"/>
         </scene>
         <!--OpenSheetViewController-->
         <scene sceneID="0ly-G1-nAp">

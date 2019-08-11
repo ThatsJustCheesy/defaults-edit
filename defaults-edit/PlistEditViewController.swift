@@ -220,8 +220,18 @@ extension PlistEditViewController: NSUserInterfaceValidations, NSOutlineViewDele
         didChangeValue(forKey: "canEdit")
     }
     
+    private func resetSelection() {
+        // Prevent operation ordering issue whereby:
+        //   • canEdit returns true since the outline view has a valid selection;
+        //   • The outline view's selection then changes on the same runloop cycle;
+        //   • Thus, the "Edit" button is enabled and causes a crash when clicked.
+        // This forcibly resets the selection again. Shouldn't be necessary, but is.
+        outlineView.selectRowIndexes([], byExtendingSelection: false)
+    }
+    
     func add(_ item: PlistItem) {
         delegate?.add(item)
+        resetSelection()
     }
     
     @IBAction func add(_ sender: Any?) {
@@ -240,10 +250,12 @@ extension PlistEditViewController: NSUserInterfaceValidations, NSOutlineViewDele
     
     func remove(itemsFor keys: Set<String>) {
         delegate?.removeItems(for: keys)
+        resetSelection()
     }
     
     @IBAction func loadExternalChanges(_ sender: Any?) {
         delegate?.loadExternalChanges()
+        resetSelection()
     }
     
 }

@@ -13,6 +13,7 @@ class DefaultsDomain: NSObject {
     private enum Impl {
         case bundle(Bundle)
         case domainName(String)
+        case globalDomain
     }
     
     private var impl: Impl
@@ -22,6 +23,9 @@ class DefaultsDomain: NSObject {
     }
     init(domainName: String) {
         impl = .domainName(domainName)
+    }
+    init(globalDomain: ()) {
+        impl = .globalDomain
     }
     
     override var hash: Int {
@@ -34,6 +38,8 @@ class DefaultsDomain: NSObject {
             return bundle.bundleIdentifier
         case .domainName(let domainName):
             return domainName
+        case .globalDomain:
+            return UserDefaults.globalDomain
         }
     }
     
@@ -43,6 +49,8 @@ class DefaultsDomain: NSObject {
             return bundle.name
         case .domainName(let domainName):
             return domainName
+        case .globalDomain:
+            return "Global Domain"
         }
     }
     
@@ -50,7 +58,7 @@ class DefaultsDomain: NSObject {
         switch impl {
         case .bundle(let bundle):
             return bundle.iconImage
-        case .domainName:
+        case .domainName, .globalDomain:
             return NSImage(size: .zero)
         }
     }
@@ -59,7 +67,7 @@ class DefaultsDomain: NSObject {
         switch impl {
         case .bundle(let bundle):
             return bundle.bundlePath
-        case .domainName:
+        case .domainName, .globalDomain:
             return nil
         }
     }
@@ -68,7 +76,7 @@ class DefaultsDomain: NSObject {
         switch impl {
         case .bundle(let bundle):
             return bundle.infoDictionary ?? [:]
-        case .domainName:
+        case .domainName, .globalDomain:
             return [:]
         }
     }

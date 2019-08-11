@@ -8,73 +8,123 @@
 
 import Cocoa
 
+protocol Defaults {
+    
+    func add(_ item: PlistItem)
+    func removeItems(for keys: Set<String>)
+    func synchronize()
+    
+}
+
+extension UserDefaults: Defaults {
+    
+    func add(_ item: PlistItem) {
+        set(item.value ?? "", forKey: item.key)
+    }
+    
+    func removeItems(for keys: Set<String>) {
+        let nullMappings = keys.map { ($0, NSNull() as Any) }
+        setValuesForKeys([String : Any](uniqueKeysWithValues: nullMappings))
+    }
+    
+    func synchronize() {
+        let _: Bool = synchronize()
+    }
+    
+}
+
+struct GlobalDefaults: Defaults {
+    
+    func add(_ item: PlistItem) {
+        CFPreferencesSetValue(item.key as CFString, item.value as CFPropertyList, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        synchronize()
+    }
+    
+    func removeItems(for keys: Set<String>) {
+        CFPreferencesSetMultiple(nil, Array(keys) as CFArray, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        synchronize()
+    }
+    
+    func synchronize() {
+        CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+    }
+    
+}
+
 class ViewController: NSViewController {
-    
-    @objc dynamic var filterString: String? {
-        didSet {
-            fetchDefaults()
-        }
-    }
-    
-    @objc class func keyPathsForValuesAffectingDefaults() -> Set<String> {
-        return ["filterString"]
-    }
-    
-    private var allDefaults: [String : Any] = [:] {
-        didSet {
-            guard let filterString = filterString else {
-                defaults = allDefaults
-                return
-            }
-            
-            let filterMatchPredicate = NSPredicate(format: "self CONTAINS[cd] %@", filterString)
-            defaults = allDefaults.filter { filterMatchPredicate.evaluate(with: $0.key) }
-        }
-    }
-    
-    @objc dynamic var defaults: [String : Any] = [:] {
-        didSet {
-            plistEditVC?.representedObject = defaults
-        }
-    }
-    
-    @objc dynamic var showingAllVisibleDefaults: Bool = false {
-        didSet {
-            fetchDefaults()
-        }
-    }
     
     private var representedDomain: DefaultsDomain! {
         return representedObject as? DefaultsDomain
     }
     
-    private var appDefaults: UserDefaults {
-        if representedDomain.bundleIdentifier == Bundle(for: ViewController.self).bundleIdentifier {
+    @objc dynamic var filterString: String? {
+        didSet {
+            fetchVisibleDefaults()
+        }
+    }
+    
+    @objc class func keyPathsForValuesAffectingListedDefaults() -> Set<String> {
+        return ["filterString"]
+    }
+    
+    private var unfilteredListedDefaults: [String : Any] = [:] {
+        didSet {
+            guard let filterString = filterString else {
+                listedDefaults = unfilteredListedDefaults
+                return
+            }
+            
+            let filterMatchPredicate = NSPredicate(format: "self CONTAINS[cd] %@", filterString)
+            listedDefaults = unfilteredListedDefaults.filter { filterMatchPredicate.evaluate(with: $0.key) }
+        }
+    }
+    
+    @objc dynamic var listedDefaults: [String : Any] = [:] {
+        didSet {
+            plistEditVC?.representedObject = listedDefaults
+        }
+    }
+    
+    private var defaultsEffectiveInDomain: Defaults {
+        switch representedDomain.bundleIdentifier {
+        case Bundle(for: ViewController.self).bundleIdentifier:
             // UserDefaults(suiteName:) does not work with own application bundle
             return UserDefaults.standard
-        } else {
+        case UserDefaults.globalDomain:
+            return GlobalDefaults()
+        default:
             return UserDefaults(suiteName: representedDomain.bundleIdentifier)!
         }
     }
     
-    private func fetchDefaults() {
-        if showingAllVisibleDefaults {
-            fetchAllDefaults()
-        } else {
-            fetchDomainSpecificDefaults()
+    @objc dynamic var canShowEffectiveInDomain: Bool {
+        return representedDomain?.bundleIdentifier != UserDefaults.globalDomain
+    }
+    
+    @objc class func keyPathsForValuesAffectingCanShowEffectiveInDomain() -> Set<String> {
+        return ["representedDomain"]
+    }
+    
+    @objc dynamic var showingDefaultsEffectiveInDomain: Bool = false {
+        didSet {
+            fetchVisibleDefaults()
         }
     }
     
-    private func clearCache() {
-        cachedDomainSpecificDefaults = nil
+    private func fetchVisibleDefaults() {
+        if showingDefaultsEffectiveInDomain {
+            fetchDefaultsEffectiveInDomain()
+        } else {
+            fetchDefaultsSetInDomain()
+        }
     }
     
-    private var domainSpecificDefaultsExportProcess: Process?
-    private var cachedDomainSpecificDefaults: [String : Any]?
+    private var defaultsSetInDomainExportProcess: Process?
+    private var cachedDefaultsSetInDomain: [String : Any]?
     
-    private func fetchDomainSpecificDefaults() {
-        if let cached = cachedDomainSpecificDefaults {
-            allDefaults = cached
+    private func fetchDefaultsSetInDomain() {
+        if let cached = cachedDefaultsSetInDomain {
+            unfilteredListedDefaults = cached
             return
         }
         
@@ -91,16 +141,16 @@ class ViewController: NSViewController {
         }
         process.arguments = ["export", representedDomain.bundleIdentifier!, "-"]
         process.qualityOfService = .userInteractive
-        domainSpecificDefaultsExportProcess = process
+        defaultsSetInDomainExportProcess = process
         process.terminationHandler = { process in
             DispatchQueue.main.async {
                 if process.terminationStatus == 0 {
-                    self.allDefaults = try! PropertyListSerialization.propertyList(from: processOut.fileHandleForReading.readDataToEndOfFile(), options: [], format: nil) as! [String : Any]
+                    self.unfilteredListedDefaults = try! PropertyListSerialization.propertyList(from: processOut.fileHandleForReading.readDataToEndOfFile(), options: [], format: nil) as! [String : Any]
                 } else {
-                    self.allDefaults = [:]
+                    self.unfilteredListedDefaults = [:]
                 }
                 self.plistEditVC?.stopLoading()
-                self.cachedDomainSpecificDefaults = self.allDefaults
+                self.cachedDefaultsSetInDomain = self.unfilteredListedDefaults
             }
         }
         if #available(macOS 10.13, *) {
@@ -110,13 +160,13 @@ class ViewController: NSViewController {
         }
     }
     
-    private func fetchAllDefaults() {
-        appDefaults.synchronize()
-        allDefaults = appDefaults.dictionaryRepresentation()
+    private func fetchDefaultsEffectiveInDomain() {
+        defaultsEffectiveInDomain.synchronize()
+        unfilteredListedDefaults = (defaultsEffectiveInDomain as? UserDefaults)?.dictionaryRepresentation() ?? listedDefaults
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func clearCache() {
+        cachedDefaultsSetInDomain = nil
     }
     
     override func viewWillAppear() {
@@ -126,7 +176,7 @@ class ViewController: NSViewController {
             guard let self = self else { return }
             if !self.ensureHasRepresentedObject() { return }
             self.clearCache()
-            self.fetchDefaults()
+            self.fetchVisibleDefaults()
         }
     }
     
@@ -141,9 +191,15 @@ class ViewController: NSViewController {
     override var representedObject: Any? {
         didSet {
             (view.window?.windowController as? WindowController)?.representedDomain = representedDomain
-            cachedDomainSpecificDefaults = nil
+            if !canShowEffectiveInDomain {
+                showingDefaultsEffectiveInDomain = false
+            }
+            viewTypeSC.setEnabled(canShowEffectiveInDomain, forSegment: 1)
+            clearCache()
         }
     }
+    
+    @IBOutlet weak var viewTypeSC: NSSegmentedControl!
     
     @IBAction func openDocument(_ sender: Any?) {
         showOpenSheet()
@@ -161,7 +217,7 @@ class ViewController: NSViewController {
                 self.plistEditVC = plistEditVC
                 plistEditVC.delegate = self
                 // One-way stream (NSObject bind), self -> plist editor
-                plistEditVC.bind(NSBindingName(rawValue: "representedObject"), to: self, withKeyPath: "defaults", options: nil)
+                plistEditVC.bind(NSBindingName(rawValue: "representedObject"), to: self, withKeyPath: "listedDefaults", options: nil)
             case let openSheetVC as OpenSheetViewController:
                 guard let representedDomain = representedDomain else { return }
                 openSheetVC.previousSelection = representedDomain
@@ -175,36 +231,17 @@ class ViewController: NSViewController {
 extension ViewController: PlistEditDelegate {
     
     func add(_ item: PlistItem) {
-        appDefaults.set(item.value ?? "", forKey: item.key)
+        defaultsEffectiveInDomain.add(item)
         loadExternalChanges()
     }
     
     func removeItems(for keys: Set<String>) {
-        let nullMappings = keys.map { ($0, NSNull() as Any) }
-        appDefaults.setValuesForKeys([String : Any](uniqueKeysWithValues: nullMappings))
+        defaultsEffectiveInDomain.removeItems(for: keys)
         loadExternalChanges()
     }
     
     func itemType(for key: String) -> PlistType? {
-        let process = Process()
-        let processOut = Pipe()
-        process.standardOutput = processOut
-        let launchPath = "/usr/bin/defaults"
-        if #available(macOS 10.13, *) {
-            process.executableURL = URL(fileURLWithPath: launchPath)
-        } else {
-            process.launchPath = launchPath
-        }
-        process.arguments = ["read-type", representedDomain.bundleIdentifier!, key]
-        process.qualityOfService = .userInteractive
-        if #available(macOS 10.13, *) {
-            try! process.run()
-        } else {
-            process.launch()
-        }
-        process.waitUntilExit()
-        
-        guard let output = String(data: processOut.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) else {
+        guard let output = runDefaultsCommand(arguments: ["read-type", representedDomain.bundleIdentifier!, key]) else {
             return nil
         }
         let mappings: [String : PlistType] = [
@@ -220,9 +257,34 @@ extension ViewController: PlistEditDelegate {
         return mappings.first { output.contains($0.key) }?.value
     }
     
+    @discardableResult
+    func runDefaultsCommand(arguments: [String]) -> String? {
+        let process = Process()
+        let processOut = Pipe()
+        process.standardOutput = processOut
+        
+        let launchPath = "/usr/bin/defaults"
+        if #available(macOS 10.13, *) {
+            process.executableURL = URL(fileURLWithPath: launchPath)
+        } else {
+            process.launchPath = launchPath
+        }
+        process.arguments = arguments
+        process.qualityOfService = .userInteractive
+        
+        if #available(macOS 10.13, *) {
+            try! process.run()
+        } else {
+            process.launch()
+        }
+        process.waitUntilExit()
+        
+        return String(data: processOut.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
+    }
+    
     func loadExternalChanges() {
         clearCache()
-        fetchDefaults()
+        fetchVisibleDefaults()
     }
     
 }

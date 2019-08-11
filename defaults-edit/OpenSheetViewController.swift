@@ -17,7 +17,7 @@ class OpenSheetViewController: NSViewController {
             domains.formUnion(appDomains)
         }
     }
-    @objc dynamic var domains: Set<DefaultsDomain> = [] {
+    @objc dynamic var domains: Set<DefaultsDomain> = [.init(globalDomain: ())] {
         didSet {
             selectPreviousSelection()
         }
@@ -129,6 +129,16 @@ class OpenSheetViewController: NSViewController {
     }
     @objc dynamic var domainsSortDescriptors: [NSSortDescriptor] {
         return [
+            NSSortDescriptor(key: #keyPath(DefaultsDomain.bundleIdentifier), ascending: false, comparator: { (name1, name2) -> ComparisonResult in
+                switch (name1 as! String, name2 as! String) {
+                    case (UserDefaults.globalDomain, _):
+                        return .orderedDescending
+                    case (_, UserDefaults.globalDomain):
+                        return .orderedAscending
+                    default:
+                        return .orderedSame
+                }
+            }),
             NSSortDescriptor(key: #keyPath(DefaultsDomain.name), ascending: true),
             NSSortDescriptor(key: "infoDictionary.CFBundleShortVersionString", ascending: false),
             NSSortDescriptor(key: "infoDictionary.CFBundleVersion", ascending: false)]
