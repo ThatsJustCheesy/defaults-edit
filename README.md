@@ -1,6 +1,9 @@
 # defaults-edit
 A graphical user defaults editor for macOS.
 
+## Get it
+View [releases on GitHub](https://github.com/ThatsJustCheesy/defaults-edit/releases). Each includes a zip file with a prebuilt binary. Simply drag it to /Applications to install.
+
 ## Features
 - Easily browse and search available domains
 - Browse defaults in any domain, including contents of arrays and dictionaries
