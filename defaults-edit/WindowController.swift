@@ -10,15 +10,22 @@ import Cocoa
 
 class WindowController: NSWindowController {
     
-    @objc dynamic var representedDomain: DefaultsDomain?
+    @objc dynamic var representedDomain: DefaultsDomain? {
+        didSet {
+            guard let representedDomain = representedDomain else {
+                return
+            }
+            RecentsMenu.add(domain: representedDomain)
+        }
+    }
     
     override func windowDidLoad() {
         super.windowDidLoad()
     }
     
     @objc dynamic var windowTitle: String {
-        let title = representedDomain?.name ?? "Untitled"
-        let domain = representedDomain?.bundleIdentifier.map { " (" + $0 + ")" } ?? ""
+        let title = representedDomain?.localizedName ?? "Untitled"
+        let domain = representedDomain?.domainName.map { " (" + $0 + ")" } ?? ""
         return title + domain + " — defaults-edit"
     }
     @objc class func keyPathsForValuesAffectingWindowTitle() -> Set<String> {

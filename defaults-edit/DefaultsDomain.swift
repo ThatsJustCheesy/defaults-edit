@@ -18,21 +18,49 @@ class DefaultsDomain: NSObject {
     
     private var impl: Impl
     
+    /// Initializes from a Bundle instance. The domain name is the bundle's
+    /// `bundleIdentifier`.
+    ///
+    /// - Parameter bundle: The bundle to represent as a defaults domain.
     init(bundle: Bundle) {
         impl = .bundle(bundle)
     }
+    
+    /// Initializes from a domain name.
+    ///
+    /// - Parameter domainName: The domain name to use.
     init(domainName: String) {
-        impl = .domainName(domainName)
+        switch domainName {
+        case UserDefaults.globalDomain:
+            self.impl = .globalDomain
+        default:
+            if let bundle = Bundle(identifier: domainName) {
+                self.impl = .bundle(bundle)
+            } else {
+                self.impl = .domainName(domainName)
+            }
+        }
     }
+    
+    /// Initializes a `DefaultsDomain` representing the global domain.
+    ///
+    /// - Parameter globalDomain: Just a label. Pass `()`.
     init(globalDomain: ()) {
         impl = .globalDomain
     }
     
-    override var hash: Int {
-        return (bundleIdentifier ?? name ?? "").hash
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? DefaultsDomain else {
+            return false
+        }
+        return object.domainName == domainName && object.localizedName == localizedName
     }
     
-    @objc dynamic var bundleIdentifier: String? {
+    override var hash: Int {
+        return (domainName ?? localizedName ?? "").hash
+    }
+    
+    @objc dynamic var domainName: String? {
         switch impl {
         case .bundle(let bundle):
             return bundle.bundleIdentifier
@@ -43,7 +71,7 @@ class DefaultsDomain: NSObject {
         }
     }
     
-    @objc dynamic var name: String? {
+    @objc dynamic var localizedName: String? {
         switch impl {
         case .bundle(let bundle):
             return bundle.name

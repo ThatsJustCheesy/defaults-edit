@@ -14,7 +14,8 @@ class OpenSheetViewController: NSViewController {
     
     @objc dynamic var appDomains: Set<DefaultsDomain> = [] {
         didSet {
-            domains.formUnion(appDomains)
+            let domainsToMerge = appDomains.filter { !domains.contains($0) }
+            domains.formUnion(domainsToMerge)
         }
     }
     @objc dynamic var domains: Set<DefaultsDomain> = [.init(globalDomain: ())] {
@@ -31,12 +32,26 @@ class OpenSheetViewController: NSViewController {
         bindQueryResults()
         query.start()
         fetchOtherDomains()
+    }
+    
+    override func viewWillAppear() {
         tableView.reloadData()
     }
     
     @IBAction func ok(_ sender: Any?) {
-        (presentingViewController as? ViewController)?.representedObject = domainsAC.selectedObjects?.first as! DefaultsDomain
-        dismiss(sender)
+        open(domain: domainsAC.selectedObjects?.first as! DefaultsDomain)
+    }
+    
+    @IBAction func openRecentItem(_ sender: Any?) {
+        guard let sender = sender as? NSMenuItem else {
+            return
+        }
+        open(domain: sender.representedObject as! DefaultsDomain)
+    }
+    
+    private func open(domain: DefaultsDomain) {
+        (presentingViewController as? ViewController)?.representedObject = domain
+        dismiss(self)
     }
     
     deinit {
@@ -121,7 +136,7 @@ class OpenSheetViewController: NSViewController {
         guard let filterString = filterString, filterString != "" else {
             return NSPredicate(value: true)
         }
-        return NSPredicate(format: "bundleIdentifier CONTAINS[cd] %@ || name CONTAINS[cd] %@", filterString, filterString)
+        return NSPredicate(format: "domainName CONTAINS[cd] %@ || localizedName CONTAINS[cd] %@", filterString, filterString)
     }
     
     @objc dynamic var domainsFilterPredicate: NSPredicate {
@@ -129,7 +144,7 @@ class OpenSheetViewController: NSViewController {
     }
     @objc dynamic var domainsSortDescriptors: [NSSortDescriptor] {
         return [
-            NSSortDescriptor(key: #keyPath(DefaultsDomain.bundleIdentifier), ascending: false, comparator: { (name1, name2) -> ComparisonResult in
+            NSSortDescriptor(key: #keyPath(DefaultsDomain.domainName), ascending: false, comparator: { (name1, name2) -> ComparisonResult in
                 switch (name1 as! String, name2 as! String) {
                     case (UserDefaults.globalDomain, _):
                         return .orderedDescending
@@ -139,7 +154,7 @@ class OpenSheetViewController: NSViewController {
                         return .orderedSame
                 }
             }),
-            NSSortDescriptor(key: #keyPath(DefaultsDomain.name), ascending: true),
+            NSSortDescriptor(key: #keyPath(DefaultsDomain.localizedName), ascending: true),
             NSSortDescriptor(key: "infoDictionary.CFBundleShortVersionString", ascending: false),
             NSSortDescriptor(key: "infoDictionary.CFBundleVersion", ascending: false)]
     }

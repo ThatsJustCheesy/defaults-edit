@@ -22,6 +22,7 @@
 		3C9A3FEE222F15AF00789FD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C9A3FEC222F15AF00789FD0 /* Main.storyboard */; };
 		3C9A3FF7222F168C00789FD0 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3FF6222F168C00789FD0 /* WindowController.swift */; };
 		3C9A3FF9222F3CE800789FD0 /* OpenSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */; };
+		3CBDAFFE2300841B0054C654 /* RecentsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */; };
 		3CDBA88F224A9D4100C49512 /* DefaultsDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */; };
 		3CE197602245EF0300600A4A /* NSData+FastHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1975B2245EF0300600A4A /* NSData+FastHex.m */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		3CE197642245EF2A00600A4A /* FastHexTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE197632245EF2A00600A4A /* FastHexTransformer.m */; };
@@ -74,6 +75,7 @@
 		3C9A3FF0222F15AF00789FD0 /* defaults_edit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = defaults_edit.entitlements; sourceTree = "<group>"; };
 		3C9A3FF6222F168C00789FD0 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSheetViewController.swift; sourceTree = "<group>"; };
+		3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsMenu.swift; sourceTree = "<group>"; };
 		3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsDomain.swift; sourceTree = "<group>"; };
 		3CE197572245EF0300600A4A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3CE197582245EF0300600A4A /* NSData+FastHex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+FastHex.h"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			children = (
 				3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */,
 				3C9A3FE6222F15AD00789FD0 /* AppDelegate.swift */,
+				3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */,
 				3C9A3FF6222F168C00789FD0 /* WindowController.swift */,
 				3C9A3FE8222F15AD00789FD0 /* ViewController.swift */,
 				3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */,
@@ -256,6 +259,7 @@
 				3CDBA88F224A9D4100C49512 /* DefaultsDomain.swift in Sources */,
 				3C4F9C8E2235A12600F60008 /* ValueTransformers.swift in Sources */,
 				3C9A3FF7222F168C00789FD0 /* WindowController.swift in Sources */,
+				3CBDAFFE2300841B0054C654 /* RecentsMenu.swift in Sources */,
 				3CE254B122DE596300F498B3 /* PlistValueEditor.swift in Sources */,
 				3C9A3FF9222F3CE800789FD0 /* OpenSheetViewController.swift in Sources */,
 				3CE254AF22DE58EA00F498B3 /* PlistItem.swift in Sources */,

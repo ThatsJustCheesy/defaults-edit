@@ -8,7 +8,7 @@
 
 import Cocoa
 
-protocol Defaults {
+protocol DefaultsModifier {
     
     func add(_ item: PlistItem)
     func removeItems(for keys: Set<String>)
@@ -16,7 +16,7 @@ protocol Defaults {
     
 }
 
-extension UserDefaults: Defaults {
+extension UserDefaults: DefaultsModifier {
     
     func add(_ item: PlistItem) {
         set(item.value ?? "", forKey: item.key)
@@ -33,7 +33,7 @@ extension UserDefaults: Defaults {
     
 }
 
-struct GlobalDefaults: Defaults {
+struct GlobalDefaults: DefaultsModifier {
     
     func add(_ item: PlistItem) {
         CFPreferencesSetValue(item.key as CFString, item.value as CFPropertyList, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
@@ -85,20 +85,20 @@ class ViewController: NSViewController {
         }
     }
     
-    private var defaultsEffectiveInDomain: Defaults {
-        switch representedDomain.bundleIdentifier {
+    private var defaultsEffectiveInDomain: DefaultsModifier {
+        switch representedDomain.domainName {
         case Bundle(for: ViewController.self).bundleIdentifier:
             // UserDefaults(suiteName:) does not work with own application bundle
             return UserDefaults.standard
         case UserDefaults.globalDomain:
             return GlobalDefaults()
         default:
-            return UserDefaults(suiteName: representedDomain.bundleIdentifier)!
+            return UserDefaults(suiteName: representedDomain.domainName)!
         }
     }
     
     @objc dynamic var canShowEffectiveInDomain: Bool {
-        return representedDomain?.bundleIdentifier != UserDefaults.globalDomain
+        return representedDomain?.domainName != UserDefaults.globalDomain
     }
     
     @objc class func keyPathsForValuesAffectingCanShowEffectiveInDomain() -> Set<String> {
@@ -139,7 +139,7 @@ class ViewController: NSViewController {
         } else {
             process.launchPath = launchPath
         }
-        process.arguments = ["export", representedDomain.bundleIdentifier!, "-"]
+        process.arguments = ["export", representedDomain.domainName!, "-"]
         process.qualityOfService = .userInteractive
         defaultsSetInDomainExportProcess = process
         process.terminationHandler = { process in
@@ -205,6 +205,13 @@ class ViewController: NSViewController {
         showOpenSheet()
     }
     
+    @IBAction func openRecentItem(_ sender: Any?) {
+        guard let sender = sender as? NSMenuItem else {
+            return
+        }
+        representedObject = sender.representedObject
+    }
+    
     func showOpenSheet() {
         performSegue(withIdentifier: "ShowOpenSheet", sender: self)
     }
@@ -241,7 +248,7 @@ extension ViewController: PlistEditDelegate {
     }
     
     func itemType(for key: String) -> PlistType? {
-        guard let output = runDefaultsCommand(arguments: ["read-type", representedDomain.bundleIdentifier!, key]) else {
+        guard let output = runDefaultsCommand(arguments: ["read-type", representedDomain.domainName!, key]) else {
             return nil
         }
         let mappings: [String : PlistType] = [

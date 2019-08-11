@@ -31,7 +31,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.name" id="qt1-7K-A0B"/>
+                                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.localizedName" id="EjM-qr-MzE"/>
                                                 </connections>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWY-dH-Wa0">
@@ -45,7 +45,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.bundleIdentifier" id="uJW-MV-Icd"/>
+                                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.domainName" id="dk4-RH-iwP"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
