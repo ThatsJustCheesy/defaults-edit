@@ -43,18 +43,7 @@ import Foundation
 class PlistItem: NSObject, PlistValue {
     
     @objc dynamic var key: String = "Key"
-    @objc dynamic var type: PlistType = .string {
-        didSet {
-            if
-                oldValue == .integer && type == .real ||
-                oldValue == .real && type == .integer
-            {
-                return
-            } else {
-                value = nil
-            }
-        }
-    }
+    @objc dynamic var type: PlistType = .string
     @objc dynamic var value: AnyObject? = "" as AnyObject
     
     @objc var isValid: Bool {

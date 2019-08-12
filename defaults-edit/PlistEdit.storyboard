@@ -677,14 +677,13 @@ Gw
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="0iM-OC-Cs2">
                                     <font key="font" metaFont="system"/>
                                     <segments>
-                                        <segment label="True" selected="YES"/>
+                                        <segment label="True"/>
                                         <segment label="False" tag="1"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>
-                                    <binding destination="DG2-nA-sVy" name="selectedIndex" keyPath="representedObject.selection.value" id="Wfv-ff-K64">
+                                    <binding destination="DG2-nA-sVy" name="selectedIndex" keyPath="representedObject.selection.value" id="w5S-1f-X7V">
                                         <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
