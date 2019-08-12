@@ -119,7 +119,6 @@ class ViewController: NSViewController {
         }
     }
     
-    private var defaultsSetInDomainExportProcess: Process?
     private var cachedDefaultsSetInDomain: [String : Any]?
     
     private func fetchDefaultsSetInDomain() {
@@ -129,34 +128,15 @@ class ViewController: NSViewController {
         }
         
         plistEditVC?.startLoading()
-
-        let process = Process()
-        let processOut = Pipe()
-        process.standardOutput = processOut
-        let launchPath = "/usr/bin/defaults"
-        if #available(macOS 10.13, *) {
-            process.executableURL = URL(fileURLWithPath: launchPath)
-        } else {
-            process.launchPath = launchPath
-        }
-        process.arguments = ["export", representedDomain.domainName!, "-"]
-        process.qualityOfService = .userInteractive
-        defaultsSetInDomainExportProcess = process
-        process.terminationHandler = { process in
-            DispatchQueue.main.async {
-                if process.terminationStatus == 0 {
-                    self.unfilteredListedDefaults = try! PropertyListSerialization.propertyList(from: processOut.fileHandleForReading.readDataToEndOfFile(), options: [], format: nil) as! [String : Any]
-                } else {
-                    self.unfilteredListedDefaults = [:]
-                }
-                self.plistEditVC?.stopLoading()
-                self.cachedDefaultsSetInDomain = self.unfilteredListedDefaults
+        
+        runAsynchronousDefaultsCommand(arguments: ["export", representedDomain.domainName!, "-"]) { process, data in
+            if process.terminationStatus == 0 {
+                self.unfilteredListedDefaults = try! PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String : Any]
+            } else {
+                self.unfilteredListedDefaults = [:]
             }
-        }
-        if #available(macOS 10.13, *) {
-            try! process.run()
-        } else {
-            process.launch()
+            self.plistEditVC?.stopLoading()
+            self.cachedDefaultsSetInDomain = self.unfilteredListedDefaults
         }
     }
     
@@ -242,7 +222,7 @@ extension ViewController: PlistEditDelegate {
     }
     
     func itemType(for key: String) -> PlistType? {
-        guard let output = runDefaultsCommand(arguments: ["read-type", representedDomain.domainName!, key]) else {
+        guard let output = runSynchronousDefaultsCommand(arguments: ["read-type", representedDomain.domainName!, key]) else {
             return nil
         }
         let mappings: [String : PlistType] = [
@@ -259,7 +239,25 @@ extension ViewController: PlistEditDelegate {
     }
     
     @discardableResult
-    func runDefaultsCommand(arguments: [String]) -> String? {
+    func runSynchronousDefaultsCommand(arguments: [String]) -> String? {
+        let process = launchDefaultsCommand(arguments: arguments)
+        process.waitUntilExit()
+        return String(data: (process.standardOutput! as AnyObject).fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
+    }
+    
+    func runAsynchronousDefaultsCommand(arguments: [String], completion: @escaping (Process, Data) -> Void) {
+        let process = launchDefaultsCommand(arguments: arguments)
+        let notificationCenter = NotificationCenter.default
+        var observation: Any?
+        observation = notificationCenter.addObserver(forName: .NSFileHandleReadToEndOfFileCompletion, object: nil, queue: nil) { notification in
+            notificationCenter.removeObserver(observation!)
+            let readData = notification.userInfo![NSFileHandleNotificationDataItem] as! NSData as Data
+            completion(process, readData)
+        }
+        (process.standardOutput! as AnyObject).fileHandleForReading.readToEndOfFileInBackgroundAndNotify()
+    }
+    
+    func launchDefaultsCommand(arguments: [String]) -> Process {
         let process = Process()
         let processOut = Pipe()
         process.standardOutput = processOut
@@ -278,9 +276,7 @@ extension ViewController: PlistEditDelegate {
         } else {
             process.launch()
         }
-        process.waitUntilExit()
-        
-        return String(data: processOut.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
+        return process
     }
     
     func loadExternalChanges() {
