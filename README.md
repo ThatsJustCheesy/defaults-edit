@@ -32,7 +32,6 @@ View [releases on GitHub](https://github.com/ThatsJustCheesy/defaults-edit/relea
 - Open new editor window upon relaunch (dock icon clicked with no open windows)
 
 ## Bugs
-- `com.apple.finder`, `com.apple.dt.Xcode` and possibly a few more domains don’t load properly. It seems their databases are somehow too big for the `defaults export` command. Will look into it… sometime.
 - Selecting "Array" or "Dictionary" as a value's type currently crashes. This is simply unimplemented right now, but that should change.
 - Cannot tab into domain/default lists from filter bar
 - Domain list filter bar placeholder text doesn’t currently show
