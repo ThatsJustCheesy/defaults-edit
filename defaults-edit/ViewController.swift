@@ -173,29 +173,23 @@ class ViewController: NSViewController {
         super.viewWillAppear()
         showOpenSheet()
         NotificationCenter.default.addObserver(forName: NSWindow.didEndSheetNotification, object: view.window!, queue: nil) { [weak self] notification in
-            guard let self = self else { return }
-            if !self.ensureHasRepresentedObject() { return }
-            self.clearCache()
-            self.fetchVisibleDefaults()
+            if self?.representedObject == nil {
+                // User canceled open sheet
+                self?.view.window?.close()
+            }
         }
-    }
-    
-    private func ensureHasRepresentedObject() -> Bool {
-        if representedObject == nil {
-            view.window?.close()
-            return false
-        }
-        return true
     }
     
     override var representedObject: Any? {
         didSet {
+            clearCache()
+            fetchVisibleDefaults()
+            
             (view.window?.windowController as? WindowController)?.representedDomain = representedDomain
             if !canShowEffectiveInDomain {
                 showingDefaultsEffectiveInDomain = false
             }
             viewTypeSC.setEnabled(canShowEffectiveInDomain, forSegment: 1)
-            clearCache()
         }
     }
     
