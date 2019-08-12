@@ -22,7 +22,8 @@ class RecentsMenu: NSObject, NSMenuDelegate, NSUserInterfaceValidations {
         }
         set {
             var newValue = newValue
-            if newValue.count > 10 {
+            let maxRecentItems = NSDocumentController().maximumRecentDocumentCount
+            if newValue.count > maxRecentItems {
                 newValue.removeFirst()
             }
             UserDefaults.standard.set(newValue.compactMap { $0.domainName }, forKey: "RecentDomains")
