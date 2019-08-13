@@ -40,5 +40,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
+    func applicationOpenUntitledFile(_ sender: NSApplication) -> Bool {
+        return NSStoryboard(name: "Main", bundle: nil).instantiateInitialController() != nil
+    }
+    
 }
-
