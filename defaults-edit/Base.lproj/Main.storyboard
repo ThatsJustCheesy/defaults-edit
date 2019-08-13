@@ -497,7 +497,7 @@ DQ
                                                     </connections>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <binding destination="iVx-Jk-cLm" name="value" keyPath="filterString" id="cWD-Ip-Paj">
+                                                    <binding destination="iVx-Jk-cLm" name="value" keyPath="filterString" id="eA5-HE-yua">
                                                         <dictionary key="options">
                                                             <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                             <string key="NSNoSelectionPlaceholder">App Name or Bundle ID</string>

@@ -33,5 +33,3 @@ View [releases on GitHub](https://github.com/ThatsJustCheesy/defaults-edit/relea
 
 ## Bugs
 - Selecting "Array" or "Dictionary" as a value's type currently crashes. This is simply unimplemented right now, but that should change.
-- Cannot tab into domain/default lists from filter bar
-- Domain list filter bar placeholder text doesn’t currently show
