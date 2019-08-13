@@ -10,6 +10,28 @@ import Cocoa
 
 class OpenSheetViewController: NSViewController {
     
+    /// Enables termination while this controller is presented as a sheet.
+    /// Closes all Open sheets in the application, then attempts to really
+    /// terminate.
+    ///
+    /// - Parameter sender: Action sender.
+    @IBAction func terminate(_ sender: Any?) {
+        let application = NSApplication.shared
+        guard (application.delegate?.applicationShouldTerminate?(application) ?? .terminateNow) == .terminateNow else {
+            return
+        }
+        
+        for window in NSApplication.shared.orderedWindows {
+            if
+                let sheet = window.attachedSheet,
+                sheet.contentViewController is OpenSheetViewController
+            {
+                window.endSheet(sheet)
+            }
+        }
+        NSApplication.shared.terminate(sender)
+    }
+    
     @objc dynamic var filterString: String?
     
     @objc dynamic var appDomains: Set<DefaultsDomain> = [] {
