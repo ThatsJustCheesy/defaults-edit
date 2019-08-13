@@ -22,6 +22,7 @@
 		3C9A3FEE222F15AF00789FD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C9A3FEC222F15AF00789FD0 /* Main.storyboard */; };
 		3C9A3FF7222F168C00789FD0 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3FF6222F168C00789FD0 /* WindowController.swift */; };
 		3C9A3FF9222F3CE800789FD0 /* OpenSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */; };
+		3CB3EE5523022D6A0006D9D2 /* TabSelectableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */; };
 		3CBDAFFE2300841B0054C654 /* RecentsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */; };
 		3CDBA88F224A9D4100C49512 /* DefaultsDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */; };
 		3CE197602245EF0300600A4A /* NSData+FastHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1975B2245EF0300600A4A /* NSData+FastHex.m */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
@@ -76,6 +77,7 @@
 		3C9A3FF6222F168C00789FD0 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSheetViewController.swift; sourceTree = "<group>"; };
 		3CB3EE512301E1910006D9D2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelectableTableView.swift; sourceTree = "<group>"; };
 		3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsMenu.swift; sourceTree = "<group>"; };
 		3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsDomain.swift; sourceTree = "<group>"; };
 		3CE197572245EF0300600A4A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				3C4F9C8D2235A12600F60008 /* ValueTransformers.swift */,
 				3C2D8F03223DD5A5003245D0 /* InvalidDataMarker.xib */,
 				3C3217122245489400E47131 /* InvalidDataMarker.swift */,
+				3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */,
 				3C6CB2842235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.h */,
 				3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */,
 				3CE197622245EF2A00600A4A /* FastHexTransformer.h */,
@@ -260,6 +263,7 @@
 				3C9A3FE9222F15AD00789FD0 /* ViewController.swift in Sources */,
 				3CDBA88F224A9D4100C49512 /* DefaultsDomain.swift in Sources */,
 				3C4F9C8E2235A12600F60008 /* ValueTransformers.swift in Sources */,
+				3CB3EE5523022D6A0006D9D2 /* TabSelectableTableView.swift in Sources */,
 				3C9A3FF7222F168C00789FD0 /* WindowController.swift in Sources */,
 				3CBDAFFE2300841B0054C654 /* RecentsMenu.swift in Sources */,
 				3CE254B122DE596300F498B3 /* PlistValueEditor.swift in Sources */,

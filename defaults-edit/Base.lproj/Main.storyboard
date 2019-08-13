@@ -525,7 +525,7 @@ DQ
                                                     <rect key="frame" x="1" y="1" width="496" height="204"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="B39-lf-2F3">
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="B39-lf-2F3" customClass="TabSelectableTableView" customModule="defaults_edit" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="496" height="204"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -597,12 +597,6 @@ DQ
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
                                                                                     <connections>
-                                                                                        <binding destination="vqa-Iz-d5P" name="displayPatternValue1" keyPath="objectValue.localizedName" id="xbf-ul-6oK">
-                                                                                            <dictionary key="options">
-                                                                                                <string key="NSDisplayPattern">%{value1}@ (%{value2}@)</string>
-                                                                                                <string key="NSNullPlaceholder">(Unnamed bundle)</string>
-                                                                                            </dictionary>
-                                                                                        </binding>
                                                                                         <binding destination="vqa-Iz-d5P" name="displayPatternValue2" keyPath="objectValue.domainName" previousBinding="xbf-ul-6oK" id="QGP-sn-AtP">
                                                                                             <dictionary key="options">
                                                                                                 <string key="NSDisplayPattern">%{value1}@ (%{value2}@)</string>
@@ -611,6 +605,12 @@ DQ
                                                                                         <binding destination="vqa-Iz-d5P" name="textColor" keyPath="objectValue.domainName" id="l9N-O2-vRL">
                                                                                             <dictionary key="options">
                                                                                                 <string key="NSValueTransformerName">#ENABLEDFONTCOLOR[NotNilOrEmptyString]</string>
+                                                                                            </dictionary>
+                                                                                        </binding>
+                                                                                        <binding destination="vqa-Iz-d5P" name="displayPatternValue1" keyPath="objectValue.localizedName" id="xbf-ul-6oK">
+                                                                                            <dictionary key="options">
+                                                                                                <string key="NSDisplayPattern">%{value1}@ (%{value2}@)</string>
+                                                                                                <string key="NSNullPlaceholder">(Unnamed bundle)</string>
                                                                                             </dictionary>
                                                                                         </binding>
                                                                                     </connections>
@@ -750,7 +750,12 @@ Gw
                     </connections>
                 </viewController>
                 <customObject id="ly6-c2-SAR" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="NSArray" editable="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="4f2-Bj-rbM" userLabel="Filtered Domains">
+                <arrayController objectClassName="NSArray" editable="NO" selectsInsertedObjects="NO" clearsFilterPredicateOnInsertion="NO" id="4f2-Bj-rbM" userLabel="Filtered Domains">
+                    <declaredKeys>
+                        <string>domainName</string>
+                        <string>localizedName</string>
+                        <string>iconImage</string>
+                    </declaredKeys>
                     <connections>
                         <binding destination="iVx-Jk-cLm" name="contentSet" keyPath="domains" id="ur1-bx-N08"/>
                         <binding destination="iVx-Jk-cLm" name="filterPredicate" keyPath="domainsFilterPredicate" id="9m2-FU-BkE"/>

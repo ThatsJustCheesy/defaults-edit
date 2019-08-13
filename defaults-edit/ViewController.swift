@@ -57,7 +57,7 @@ class ViewController: NSViewController {
         return representedObject as? DefaultsDomain
     }
     
-    @objc dynamic var filterString: String? {
+    @objc dynamic var filterString: String? = nil {
         didSet {
             fetchVisibleDefaults()
         }
