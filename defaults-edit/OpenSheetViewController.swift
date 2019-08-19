@@ -32,6 +32,7 @@ class OpenSheetViewController: NSViewController {
         NSApplication.shared.terminate(sender)
     }
     
+    /// The text typed into the filter box.
     @objc dynamic var filterString: String?
     
     @objc dynamic var appDomains: Set<DefaultsDomain> = [] {

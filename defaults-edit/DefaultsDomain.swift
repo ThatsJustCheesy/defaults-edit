@@ -8,14 +8,21 @@
 
 import Cocoa
 
+/// A defaults domain and its corresponding attributes.
 class DefaultsDomain: NSObject {
     
+    /// An internal representation used for the domain.
+    ///
+    /// - bundle: A `Bundle` object.
+    /// - domainName: A string-based domain name.
+    /// - globalDomain: The global domain, which needs special handling.
     private enum Impl {
         case bundle(Bundle)
         case domainName(String)
         case globalDomain
     }
     
+    /// The internal representation used for the domain.
     private var impl: Impl
     
     /// Initializes from a Bundle instance. The domain name is the bundle's
@@ -60,6 +67,8 @@ class DefaultsDomain: NSObject {
         return (domainName ?? localizedName ?? "").hash
     }
     
+    /// This domain's reverse-DNS name.
+    /// Only nil if initialized with a bundle that has no bundle identifier.
     @objc dynamic var domainName: String? {
         switch impl {
         case .bundle(let bundle):
@@ -71,6 +80,8 @@ class DefaultsDomain: NSObject {
         }
     }
     
+    /// This domain's localized/"user-friendly" name, if one exists.
+    /// e.g., for application domains, this is the application name.
     @objc dynamic var localizedName: String? {
         switch impl {
         case .bundle(let bundle):
@@ -82,6 +93,8 @@ class DefaultsDomain: NSObject {
         }
     }
     
+    /// The icon associated with this domain, if one exists.
+    /// e.g., for application domains, this is the application's icon image.
     @objc dynamic var iconImage: NSImage {
         switch impl {
         case .bundle(let bundle):
@@ -91,6 +104,7 @@ class DefaultsDomain: NSObject {
         }
     }
     
+    /// The path of this bundle that governs this domain, if one exists.
     @objc dynamic var bundlePath: String? {
         switch impl {
         case .bundle(let bundle):
@@ -100,6 +114,8 @@ class DefaultsDomain: NSObject {
         }
     }
     
+    /// The info dictionary of the bundle that governs this domain, if one
+    /// exists.
     @objc dynamic var infoDictionary: [String : Any] {
         switch impl {
         case .bundle(let bundle):
@@ -113,10 +129,14 @@ class DefaultsDomain: NSObject {
 
 extension Bundle {
     
-    @objc dynamic var name: String? {
+    /// This bundle's localized name, or if none is found, its basename minus
+    /// any extension.
+    @objc dynamic var name: String {
         return (object(forInfoDictionaryKey: "CFBundleName") as? String).flatMap { $0 == "" ? nil : $0 } ?? self.bundleURL.deletingPathExtension().lastPathComponent
     }
     
+    /// This bundle's associated icon image. If none is explicitly set, queries
+    /// system for one instead, via `NSWorkspace`.
     @objc dynamic var iconImage: NSImage {
         if
             let imageName = object(forInfoDictionaryKey: "CFBundleIconFile") as? String,

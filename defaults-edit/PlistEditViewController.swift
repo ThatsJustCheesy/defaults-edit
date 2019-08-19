@@ -8,6 +8,7 @@
 
 import Cocoa
 
+/// An object that a property list editor asks to effect changes.
 protocol PlistEditDelegate {
     
     func add(_ item: PlistItem)
@@ -17,13 +18,21 @@ protocol PlistEditDelegate {
     
 }
 
+/// A reusable, general-purpose property list editor.
 class PlistEditViewController: NSViewController {
     
+    /// The delegate object that persists changes to the property list.
     var delegate: PlistEditDelegate?
     
+    /// The outline view used to display the property list and facilitate
+    /// GUI-based editing.
     @IBOutlet var outlineView: NSOutlineView!
+    /// Shown when the delegate reports that it is in the process
+    /// of loading data.
     @IBOutlet var progressIndicator: NSProgressIndicator!
     
+    /// The property list to display.
+    /// When set, the view is updated accordingly.
     override var representedObject: Any? {
         didSet {
             if let representedObject = representedObject {
@@ -31,17 +40,19 @@ class PlistEditViewController: NSViewController {
             }
         }
     }
-    @objc dynamic var filterString: String?
     
-    func startLoading() {
+    /// Starts the animation of the built-in progress indicator.
+    func startProgressIndicator() {
         progressIndicator.startAnimation(self)
     }
     
-    func stopLoading() {
+    /// Stops the animation of the built-in progress indicator.
+    func stopProgressIndicator() {
         progressIndicator.stopAnimation(self)
-        outlineView.reloadData()
     }
     
+    /// The property list to display.
+    /// When set, the view is updated accordingly.
     private var plist: Any = [:] {
         didSet {
             outlineView?.reloadData()

@@ -8,6 +8,7 @@
 
 import Cocoa
 
+/// Controls an editor view for a property list type and its corresponding value.
 class TypeAndValueEditor: NSViewController {
     
     @IBOutlet var valueOC: NSObjectController!
@@ -26,6 +27,8 @@ class TypeAndValueEditor: NSViewController {
     
 }
 
+/// Controls a tab view responsible for editing a property list value.
+/// Each tab contains editing UI for a different property list type.
 class ValueEditorTabVC: NSTabViewController {
     
     private var shouldResetValueOnTypeChange: Bool = false

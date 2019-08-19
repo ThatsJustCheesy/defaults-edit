@@ -8,10 +8,21 @@
 
 import Cocoa
 
+/// An object capable of modifying a defaults domain.
 protocol DefaultsModifier {
     
+    /// Adds an item to the domain.
+    ///
+    /// - Parameter item: The item to add.
     func add(_ item: PlistItem)
+    
+    /// Removes the items with the specified keys from the domain.
+    ///
+    /// - Parameter keys: The keys to remove.
     func removeItems(for keys: Set<String>)
+    
+    /// Synchronizes the domain's state with the outside world.
+    /// In particular, loads any external changes that have occurred.
     func synchronize()
     
 }
@@ -51,40 +62,58 @@ struct GlobalDefaults: DefaultsModifier {
     
 }
 
+/// Controls a defaults domain editor view.
 class ViewController: NSViewController {
     
+    /// The defaults domain represented by this editor view.
     private var representedDomain: DefaultsDomain! {
         return representedObject as? DefaultsDomain
     }
     
+    /// The text typed into the filter box.
     @objc dynamic var filterString: String? = nil {
         didSet {
-            fetchVisibleDefaults()
+            refilterListedDefaults()
         }
     }
     
+    /// The text typed in the filter box affects the listed defaults.
     @objc class func keyPathsForValuesAffectingListedDefaults() -> Set<String> {
         return ["filterString"]
     }
     
+    /// The defaults that would appear in the listing if the filter box
+    /// were blank.
     private var unfilteredListedDefaults: [String : Any] = [:] {
         didSet {
-            guard let filterString = filterString else {
-                listedDefaults = unfilteredListedDefaults
-                return
-            }
-            
-            let filterMatchPredicate = NSPredicate(format: "self CONTAINS[cd] %@", filterString)
-            listedDefaults = unfilteredListedDefaults.filter { filterMatchPredicate.evaluate(with: $0.key) }
+            refilterListedDefaults()
         }
     }
     
+    /// Re-filters the listed defaults according to the current filter string
+    /// and unfiltered list.
+    private func refilterListedDefaults() {
+        guard let filterString = filterString else {
+            listedDefaults = unfilteredListedDefaults
+            return
+        }
+        let filterMatchPredicate = NSPredicate(format: "self CONTAINS[cd] %@", filterString)
+        listedDefaults = unfilteredListedDefaults.filter { filterMatchPredicate.evaluate(with: $0.key) }
+    }
+    
+    /// The displayed listing of defaults.
+    /// When set, this is passed to the property list editor for display.
     @objc dynamic var listedDefaults: [String : Any] = [:] {
         didSet {
             plistEditVC?.representedObject = listedDefaults
         }
     }
     
+    /// An object that knows how to modify the defaults of the current domain.
+    /// If the current value is an instance of `NSUserDefaults`, then that
+    /// instance has a visibility of the current domain and can be used to get
+    /// a list of all currently effective defaults in that domain, regardless
+    /// of where they are set.
     private var defaultsEffectiveInDomain: DefaultsModifier {
         switch representedDomain.domainName {
         case Bundle(for: ViewController.self).bundleIdentifier:
@@ -97,20 +126,29 @@ class ViewController: NSViewController {
         }
     }
     
+    /// Whether the "Effective in Domain" toggle has any effect and thus
+    /// should be enabled in the UI.
     @objc dynamic var canShowEffectiveInDomain: Bool {
         return representedDomain?.domainName != UserDefaults.globalDomain
     }
     
+    /// The editor's represented domain affects whether the
+    /// "Effective in Domain" view is available.
     @objc class func keyPathsForValuesAffectingCanShowEffectiveInDomain() -> Set<String> {
         return ["representedDomain"]
     }
     
+    /// Whether the current listing shows all defaults effective in the domain,
+    /// or only those set in the domain.
     @objc dynamic var showingDefaultsEffectiveInDomain: Bool = false {
         didSet {
             fetchVisibleDefaults()
         }
     }
     
+    /// Re-fetches defaults from the current source.
+    /// The source depends on the view mode, "Set in Domain", or
+    /// "Effective in Domain".
     private func fetchVisibleDefaults() {
         if showingDefaultsEffectiveInDomain {
             fetchDefaultsEffectiveInDomain()
@@ -119,15 +157,18 @@ class ViewController: NSViewController {
         }
     }
     
+    /// A cache of defaults fetched for the "Set in Domain" view.
     private var cachedDefaultsSetInDomain: [String : Any]?
     
+    /// Re-fetches defaults for the "Set in Domain" view.
+    /// This is currently accomplished with a `defaults export` command.
     private func fetchDefaultsSetInDomain() {
         if let cached = cachedDefaultsSetInDomain {
             unfilteredListedDefaults = cached
             return
         }
         
-        plistEditVC?.startLoading()
+        plistEditVC?.startProgressIndicator()
         
         runAsynchronousDefaultsCommand(arguments: ["export", representedDomain.domainName!, "-"]) { process, data in
             if process.terminationStatus == 0 {
@@ -135,20 +176,24 @@ class ViewController: NSViewController {
             } else {
                 self.unfilteredListedDefaults = [:]
             }
-            self.plistEditVC?.stopLoading()
+            self.plistEditVC?.stopProgressIndicator()
             self.cachedDefaultsSetInDomain = self.unfilteredListedDefaults
         }
     }
     
+    /// Re-fetches defaults for the "Effective in Domain" view.
     private func fetchDefaultsEffectiveInDomain() {
         defaultsEffectiveInDomain.synchronize()
         unfilteredListedDefaults = (defaultsEffectiveInDomain as? UserDefaults)?.dictionaryRepresentation() ?? listedDefaults
     }
     
+    /// Clears cached defaults so that they must be reloaded from source.
     private func clearCache() {
         cachedDefaultsSetInDomain = nil
     }
     
+    /// Shows the Open Defaults Domain sheet on the view's window, and closes
+    /// the window if the user cancels the sheet.
     override func viewWillAppear() {
         super.viewWillAppear()
         showOpenSheet()
@@ -160,6 +205,8 @@ class ViewController: NSViewController {
         }
     }
     
+    /// Changing the represented defaults domain via this property reloads
+    /// applicable data.
     override var representedObject: Any? {
         didSet {
             clearCache()
@@ -173,12 +220,21 @@ class ViewController: NSViewController {
         }
     }
     
+    /// The segmented control used to change the view type.
     @IBOutlet weak var viewTypeSC: NSSegmentedControl!
     
+    /// Responds to the "Open…" menu item by showing the Open Defaults Domain
+    /// sheet.
+    ///
+    /// - Parameter sender: Action sender.
     @IBAction func openDocument(_ sender: Any?) {
         showOpenSheet()
     }
     
+    /// Opens the recent domain specified by the sending menu item's
+    /// represented object.
+    ///
+    /// - Parameter sender: Action sender. Should be an `NSMenuItem`.
     @IBAction func openRecentItem(_ sender: Any?) {
         guard let sender = sender as? NSMenuItem else {
             return
@@ -186,10 +242,15 @@ class ViewController: NSViewController {
         representedObject = sender.representedObject
     }
     
+    /// Shows the Open Defaults Domain sheet over the view's window.
     func showOpenSheet() {
         performSegue(withIdentifier: "ShowOpenSheet", sender: self)
     }
     
+    /// Controller for a property list editor, which implements the actual
+    /// GUI. Listed defaults are forwarded to it for display. Also, this
+    /// view controller is set up as its delegate for the purposes of
+    /// persisting editing operations.
     private var plistEditVC: PlistEditViewController?
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -197,8 +258,6 @@ class ViewController: NSViewController {
             case let plistEditVC as PlistEditViewController:
                 self.plistEditVC = plistEditVC
                 plistEditVC.delegate = self
-                // One-way stream (NSObject bind), self -> plist editor
-                plistEditVC.bind(NSBindingName(rawValue: "representedObject"), to: self, withKeyPath: "listedDefaults", options: nil)
             case let openSheetVC as OpenSheetViewController:
                 guard let representedDomain = representedDomain else { return }
                 openSheetVC.previousSelection = representedDomain
@@ -257,6 +316,11 @@ extension ViewController: PlistEditDelegate {
         (process.standardOutput! as AnyObject).fileHandleForReading.readToEndOfFileInBackgroundAndNotify()
     }
     
+    /// Launches a `defaults` command with the given arguments, and returns the
+    /// running process object.
+    ///
+    /// - Parameter arguments: The arguments to pass to the command.
+    /// - Returns: The resulting (running) process.
     func launchDefaultsCommand(arguments: [String]) -> Process {
         let process = Process()
         let processOut = Pipe()

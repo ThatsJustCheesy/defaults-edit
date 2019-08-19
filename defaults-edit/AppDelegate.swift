@@ -8,6 +8,7 @@
 
 import Cocoa
 
+/// Application delegate.
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
@@ -15,8 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         showWarningAlert()
     }
     
+    /// Defaults key for whether the warning alert presented at first launch
+    /// should be suppressed.
     private let suppressWarningAlertKey: String = "SuppressLaunchWarningAlert"
     
+    /// Shows a warning alert reminding the user to be careful about modifying
+    /// user defaults.
     private func showWarningAlert() {
         if UserDefaults.standard.bool(forKey: suppressWarningAlertKey) {
             return
