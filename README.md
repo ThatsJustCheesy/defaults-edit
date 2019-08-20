@@ -29,7 +29,7 @@ View [releases on GitHub](https://github.com/ThatsJustCheesy/defaults-edit/relea
 - Implement Rename, which moves value to new key
 - Duplicate, which copies value to new key
 - Relaunch button when editing app defaults
-- Open new editor window upon relaunch (dock icon clicked with no open windows)
+- Integrate Sparkle.framework for updates (?)
 
 ## Bugs
 - Selecting "Array" or "Dictionary" as a value's type currently crashes. This is simply unimplemented right now, but that should change.
