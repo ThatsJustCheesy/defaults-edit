@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C0C56C322DF987E00D0E89B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3CE197572245EF0300600A4A /* LICENSE */; };
+		3C0C29B0248C476A007CCC84 /* Data-FastHex in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0C29AF248C476A007CCC84 /* Data-FastHex */; };
 		3C27B0F0223BF3B5001E6B91 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C27B0EF223BF3B5001E6B91 /* Editor.storyboard */; };
 		3C27B0F2223BF49B001E6B91 /* PlistEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C27B0F1223BF49B001E6B91 /* PlistEdit.storyboard */; };
 		3C27B0F4223BF510001E6B91 /* PlistEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C27B0F3223BF510001E6B91 /* PlistEditViewController.swift */; };
@@ -25,7 +25,6 @@
 		3CB3EE5523022D6A0006D9D2 /* TabSelectableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */; };
 		3CBDAFFE2300841B0054C654 /* RecentsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */; };
 		3CDBA88F224A9D4100C49512 /* DefaultsDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */; };
-		3CE197602245EF0300600A4A /* NSData+FastHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1975B2245EF0300600A4A /* NSData+FastHex.m */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		3CE197642245EF2A00600A4A /* FastHexTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE197632245EF2A00600A4A /* FastHexTransformer.m */; };
 		3CE254AD22DE587700F498B3 /* ModelDataPropagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE254AC22DE587700F498B3 /* ModelDataPropagation.swift */; };
 		3CE254AF22DE58EA00F498B3 /* PlistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE254AE22DE58EA00F498B3 /* PlistItem.swift */; };
@@ -80,12 +79,6 @@
 		3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelectableTableView.swift; sourceTree = "<group>"; };
 		3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsMenu.swift; sourceTree = "<group>"; };
 		3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsDomain.swift; sourceTree = "<group>"; };
-		3CE197572245EF0300600A4A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		3CE197582245EF0300600A4A /* NSData+FastHex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+FastHex.h"; sourceTree = "<group>"; };
-		3CE197592245EF0300600A4A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		3CE1975A2245EF0300600A4A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		3CE1975B2245EF0300600A4A /* NSData+FastHex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+FastHex.m"; sourceTree = "<group>"; };
-		3CE1975C2245EF0300600A4A /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		3CE197622245EF2A00600A4A /* FastHexTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FastHexTransformer.h; sourceTree = "<group>"; };
 		3CE197632245EF2A00600A4A /* FastHexTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastHexTransformer.m; sourceTree = "<group>"; };
 		3CE254AC22DE587700F498B3 /* ModelDataPropagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDataPropagation.swift; sourceTree = "<group>"; };
@@ -98,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C0C29B0248C476A007CCC84 /* Data-FastHex in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +147,6 @@
 				3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */,
 				3CE197622245EF2A00600A4A /* FastHexTransformer.h */,
 				3CE197632245EF2A00600A4A /* FastHexTransformer.m */,
-				3CE197562245EF0300600A4A /* NSData+FastHex */,
 				3C9A3FEA222F15AF00789FD0 /* Assets.xcassets */,
 				3C9A3FEC222F15AF00789FD0 /* Main.storyboard */,
 				3C27B0EF223BF3B5001E6B91 /* Editor.storyboard */,
@@ -162,19 +155,6 @@
 				3C9A3FF0222F15AF00789FD0 /* defaults_edit.entitlements */,
 			);
 			path = "defaults-edit";
-			sourceTree = "<group>";
-		};
-		3CE197562245EF0300600A4A /* NSData+FastHex */ = {
-			isa = PBXGroup;
-			children = (
-				3CE197572245EF0300600A4A /* LICENSE */,
-				3CE197582245EF0300600A4A /* NSData+FastHex.h */,
-				3CE197592245EF0300600A4A /* README.md */,
-				3CE1975A2245EF0300600A4A /* .gitignore */,
-				3CE1975B2245EF0300600A4A /* NSData+FastHex.m */,
-				3CE1975C2245EF0300600A4A /* .travis.yml */,
-			);
-			path = "NSData+FastHex";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +175,9 @@
 			dependencies = (
 			);
 			name = "defaults-edit";
+			packageProductDependencies = (
+				3C0C29AF248C476A007CCC84 /* Data-FastHex */,
+			);
 			productName = "defaults-edit";
 			productReference = 3C9A3FE3222F15AD00789FD0 /* defaults-edit.app */;
 			productType = "com.apple.product-type.application";
@@ -229,6 +212,9 @@
 				Base,
 			);
 			mainGroup = 3C9A3FDA222F15AD00789FD0;
+			packageReferences = (
+				3C0C29AE248C476A007CCC84 /* XCRemoteSwiftPackageReference "Data-FastHex" */,
+			);
 			productRefGroup = 3C9A3FE4222F15AD00789FD0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -248,7 +234,6 @@
 				3C27B0F0223BF3B5001E6B91 /* Editor.storyboard in Resources */,
 				3C27B0F2223BF49B001E6B91 /* PlistEdit.storyboard in Resources */,
 				3C2D8F04223DD5A5003245D0 /* InvalidDataMarker.xib in Resources */,
-				3C0C56C322DF987E00D0E89B /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +260,6 @@
 				3CE197642245EF2A00600A4A /* FastHexTransformer.m in Sources */,
 				3C9A3FE7222F15AD00789FD0 /* AppDelegate.swift in Sources */,
 				3C3217132245489400E47131 /* InvalidDataMarker.swift in Sources */,
-				3CE197602245EF0300600A4A /* NSData+FastHex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +451,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3C0C29AE248C476A007CCC84 /* XCRemoteSwiftPackageReference "Data-FastHex" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ThatsJustCheesy/Data-FastHex";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3C0C29AF248C476A007CCC84 /* Data-FastHex */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C0C29AE248C476A007CCC84 /* XCRemoteSwiftPackageReference "Data-FastHex" */;
+			productName = "Data-FastHex";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3C9A3FDB222F15AD00789FD0 /* Project object */;
 }
