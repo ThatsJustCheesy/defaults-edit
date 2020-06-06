@@ -1,6 +1,6 @@
 //
 //  WindowController.swift
-//  defaults-edit
+//  defaults edit
 //
 //  Created by Ian Gregory on 05-03-2019.
 //  Copyright © 2019 Ian Gregory. All rights reserved.
@@ -28,7 +28,7 @@ class WindowController: NSWindowController {
     @objc dynamic var windowTitle: String {
         let title = representedDomain?.localizedName ?? "Untitled"
         let domain = representedDomain?.domainName.map { " (" + $0 + ")" } ?? ""
-        return title + domain + " — defaults-edit"
+        return title + domain + " — defaults edit"
     }
     
     /// The represented domain affects the window title.

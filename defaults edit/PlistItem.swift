@@ -1,6 +1,6 @@
 //
 //  PlistItem.swift
-//  defaults-edit
+//  defaults edit
 //
 //  Created by Ian Gregory on 16-07-2019.
 //  Copyright © 2019 Ian Gregory. All rights reserved.
@@ -63,7 +63,7 @@ class PlistItem: NSObject, PlistValue {
     }
     private func validate(key: String?) throws {
         guard let key = key, key != "" else {
-            throw NSError(domain: "defaults-edit", code: 1, userInfo: [NSLocalizedDescriptionKey: "Key must not be empty.", NSLocalizedRecoverySuggestionErrorKey: "Set the “Key” field to the desired value and try again."])
+            throw NSError(domain: "defaults edit", code: 1, userInfo: [NSLocalizedDescriptionKey: "Key must not be empty.", NSLocalizedRecoverySuggestionErrorKey: "Set the “Key” field to the desired value and try again."])
         }
     }
     

@@ -1,4 +1,4 @@
-# defaults-edit
+# defaults edit
 A graphical user defaults editor for macOS.
 
 ## Get it

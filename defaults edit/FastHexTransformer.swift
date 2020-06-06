@@ -1,6 +1,6 @@
 //
 //  FastHexTransformer.swift
-//  defaults-edit
+//  defaults edit
 //
 //  Created by Ian Gregory on 6 Jun ’20.
 //  Copyright © 2020 Ian Gregory. All rights reserved.

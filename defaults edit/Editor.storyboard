@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,21 +11,21 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="defaults_edit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="700" height="474"/>
+                        <rect key="frame" x="0.0" y="0.0" width="700" height="475"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView canDrawConcurrently="YES" distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="750" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roj-9d-5U6">
-                                <rect key="frame" x="20" y="10" width="660" height="444"/>
+                                <rect key="frame" x="20" y="10" width="660" height="445"/>
                                 <subviews>
                                     <customView horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ppP-56-oxe" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="383" width="660" height="61"/>
+                                        <rect key="frame" x="0.0" y="383" width="660" height="62"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
-                                                <rect key="frame" x="-2" y="31" width="134" height="30"/>
+                                                <rect key="frame" x="-2" y="32" width="129" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="xKE-ce-c18"/>
                                                 </constraints>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" title="defaults-edit" id="uiu-WM-BJg">
+                                                <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" title="defaults edit" id="uiu-WM-BJg">
                                                     <font key="font" metaFont="systemSemibold" size="22"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -64,7 +64,7 @@
                                         <rect key="frame" x="0.0" y="323" width="660" height="60"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
-                                                <rect key="frame" x="-2" y="39" width="50" height="20"/>
+                                                <rect key="frame" x="-2" y="37" width="50" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="W1z-lW-zsB"/>
                                                 </constraints>
@@ -95,7 +95,7 @@
                                                 </connections>
                                             </textField>
                                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZuN-ML-MAy">
-                                                <rect key="frame" x="92" y="8" width="256" height="24"/>
+                                                <rect key="frame" x="92" y="8" width="248" height="24"/>
                                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Uau-pE-OKE">
                                                     <font key="font" metaFont="system"/>
                                                     <segments>
@@ -112,7 +112,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-CX-UyB">
-                                                <rect key="frame" x="-2" y="12" width="90" height="17"/>
+                                                <rect key="frame" x="-2" y="13" width="90" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="View defaults:" id="vxz-f6-7Uh">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -149,8 +149,8 @@
                                     <constraint firstItem="C1S-HP-4HT" firstAttribute="leading" secondItem="roj-9d-5U6" secondAttribute="leading" id="yNR-cp-Z33"/>
                                 </constraints>
                                 <visibilityPriorities>
-                                    <real value="1000"/>
-                                    <real value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>

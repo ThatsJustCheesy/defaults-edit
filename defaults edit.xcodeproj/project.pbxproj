@@ -67,7 +67,7 @@
 		3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+NameSynthesis.m"; sourceTree = "<group>"; };
 		3C6CB2872235AE4D006BFBA3 /* Swizzlean.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swizzlean.framework; path = Carthage/Build/iOS/Swizzlean.framework; sourceTree = "<group>"; };
 		3C6CB28D2235AECF006BFBA3 /* Swizzlean.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Swizzlean.framework.dSYM; path = Carthage/Build/iOS/Swizzlean.framework.dSYM; sourceTree = "<group>"; };
-		3C9A3FE3222F15AD00789FD0 /* defaults-edit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "defaults-edit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C9A3FE3222F15AD00789FD0 /* defaults edit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "defaults edit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9A3FE6222F15AD00789FD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C9A3FE8222F15AD00789FD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3C9A3FEA222F15AF00789FD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		3C9A3FDA222F15AD00789FD0 = {
 			isa = PBXGroup;
 			children = (
-				3C9A3FE5222F15AD00789FD0 /* defaults-edit */,
+				3C9A3FE5222F15AD00789FD0 /* defaults edit */,
 				3C6CB28F2235AEDA006BFBA3 /* Frameworks */,
 				3C9A3FE4222F15AD00789FD0 /* Products */,
 				3CB3EE512301E1910006D9D2 /* README.md */,
@@ -119,12 +119,12 @@
 		3C9A3FE4222F15AD00789FD0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C9A3FE3222F15AD00789FD0 /* defaults-edit.app */,
+				3C9A3FE3222F15AD00789FD0 /* defaults edit.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3C9A3FE5222F15AD00789FD0 /* defaults-edit */ = {
+		3C9A3FE5222F15AD00789FD0 /* defaults edit */ = {
 			isa = PBXGroup;
 			children = (
 				3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */,
@@ -152,15 +152,15 @@
 				3C9A3FEF222F15AF00789FD0 /* Info.plist */,
 				3C9A3FF0222F15AF00789FD0 /* defaults_edit.entitlements */,
 			);
-			path = "defaults-edit";
+			path = "defaults edit";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3C9A3FE2222F15AD00789FD0 /* defaults-edit */ = {
+		3C9A3FE2222F15AD00789FD0 /* defaults edit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C9A3FF3222F15AF00789FD0 /* Build configuration list for PBXNativeTarget "defaults-edit" */;
+			buildConfigurationList = 3C9A3FF3222F15AF00789FD0 /* Build configuration list for PBXNativeTarget "defaults edit" */;
 			buildPhases = (
 				3C9A3FDF222F15AD00789FD0 /* Sources */,
 				3C9A3FE0222F15AD00789FD0 /* Frameworks */,
@@ -172,12 +172,12 @@
 			);
 			dependencies = (
 			);
-			name = "defaults-edit";
+			name = "defaults edit";
 			packageProductDependencies = (
 				3C0C29AF248C476A007CCC84 /* Data-FastHex */,
 			);
 			productName = "defaults-edit";
-			productReference = 3C9A3FE3222F15AD00789FD0 /* defaults-edit.app */;
+			productReference = 3C9A3FE3222F15AD00789FD0 /* defaults edit.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -201,7 +201,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3C9A3FDE222F15AD00789FD0 /* Build configuration list for PBXProject "defaults-edit" */;
+			buildConfigurationList = 3C9A3FDE222F15AD00789FD0 /* Build configuration list for PBXProject "defaults edit" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -217,7 +217,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3C9A3FE2222F15AD00789FD0 /* defaults-edit */,
+				3C9A3FE2222F15AD00789FD0 /* defaults edit */,
 			);
 		};
 /* End PBXProject section */
@@ -397,7 +397,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "defaults-edit/Info.plist";
+				INFOPLIST_FILE = "defaults edit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -416,7 +416,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "defaults-edit/Info.plist";
+				INFOPLIST_FILE = "defaults edit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -430,7 +430,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3C9A3FDE222F15AD00789FD0 /* Build configuration list for PBXProject "defaults-edit" */ = {
+		3C9A3FDE222F15AD00789FD0 /* Build configuration list for PBXProject "defaults edit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C9A3FF1222F15AF00789FD0 /* Debug */,
@@ -439,7 +439,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3C9A3FF3222F15AF00789FD0 /* Build configuration list for PBXNativeTarget "defaults-edit" */ = {
+		3C9A3FF3222F15AF00789FD0 /* Build configuration list for PBXNativeTarget "defaults edit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C9A3FF4222F15AF00789FD0 /* Debug */,
