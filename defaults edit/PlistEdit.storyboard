@@ -172,7 +172,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <segue destination="UMo-S1-hV8" kind="modal" identifier="showAdd" id="0WN-7u-mEu"/>
+                                            <segue destination="UMo-S1-hV8" kind="popover" identifier="showAdd" popoverAnchorView="dMH-Z6-43z" popoverBehavior="semitransient" preferredEdge="minX" id="0WN-7u-mEu"/>
                                         </connections>
                                     </button>
                                     <button toolTip="Delete selected default(s)" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HbY-35-bCm" userLabel="Remove">
@@ -197,7 +197,7 @@
                                         </buttonCell>
                                         <connections>
                                             <binding destination="Nla-F2-Stk" name="enabled" keyPath="canEdit" id="WaX-H0-32b"/>
-                                            <segue destination="T0r-el-PJz" kind="modal" identifier="showEdit" id="Hb8-Ir-Rt6"/>
+                                            <segue destination="T0r-el-PJz" kind="custom" identifier="showEdit" customClass="PopoverSegue" customModule="defaults_edit" customModuleProvider="target" id="Hb8-Ir-Rt6"/>
                                         </connections>
                                     </button>
                                     <button toolTip="Load external changes" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7x8-VV-ydi" userLabel="Refresh">
@@ -273,7 +273,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PmB-Uv-ApW">
-                                <rect key="frame" x="29" y="154" width="30" height="16"/>
+                                <rect key="frame" x="29" y="192" width="30" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Key:" id="igI-M4-ykd">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -281,7 +281,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" tag="7038329" translatesAutoresizingMaskIntoConstraints="NO" id="zJw-RV-yOb" userLabel="Key Field">
-                                <rect key="frame" x="65" y="151" width="365" height="21"/>
+                                <rect key="frame" x="65" y="189" width="365" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Due-7x-7qH">
                                     <customFormatter key="formatter" id="tBn-N6-CZJ" customClass="NonEmptyStringFormatter"/>
                                     <font key="font" metaFont="system"/>
@@ -299,7 +299,7 @@
                                 </connections>
                             </textField>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="9e6-M5-2Wx" userLabel="Value Editor Container View">
-                                <rect key="frame" x="20" y="61" width="410" height="82"/>
+                                <rect key="frame" x="20" y="61" width="410" height="120"/>
                                 <connections>
                                     <segue destination="kQW-dI-3T4" kind="embed" id="781-d0-P0P"/>
                                 </connections>
@@ -342,17 +342,6 @@ Gw
                                     <action selector="dismissController:" target="UMo-S1-hV8" id="hrP-LY-jst"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZy-V8-yzN">
-                                <rect key="frame" x="154" y="180" width="143" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="ofF-OD-IQb"/>
-                                </constraints>
-                                <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" title="Add a Default" id="2JJ-Mb-c7W">
-                                    <font key="font" metaFont="systemBold" size="22"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="9e6-M5-2Wx" firstAttribute="trailing" secondItem="zJw-RV-yOb" secondAttribute="trailing" id="2KZ-op-9bP"/>
@@ -361,14 +350,12 @@ Gw
                             <constraint firstItem="PmB-Uv-ApW" firstAttribute="leading" secondItem="1fJ-ah-dlS" secondAttribute="leading" constant="31" id="ISa-fr-Jfs"/>
                             <constraint firstAttribute="trailing" secondItem="zJw-RV-yOb" secondAttribute="trailing" constant="20" symbolic="YES" id="IUm-hT-WDW"/>
                             <constraint firstAttribute="trailing" secondItem="d7u-qT-gzM" secondAttribute="trailing" constant="20" symbolic="YES" id="KnV-uq-vbe"/>
-                            <constraint firstItem="zJw-RV-yOb" firstAttribute="top" secondItem="VZy-V8-yzN" secondAttribute="bottom" constant="8" symbolic="YES" id="Xje-An-meD"/>
+                            <constraint firstItem="zJw-RV-yOb" firstAttribute="top" secondItem="1fJ-ah-dlS" secondAttribute="top" constant="20" symbolic="YES" id="TBd-GX-SOs"/>
                             <constraint firstAttribute="bottom" secondItem="d7u-qT-gzM" secondAttribute="bottom" constant="20" symbolic="YES" id="YIp-be-TjU"/>
                             <constraint firstItem="9e6-M5-2Wx" firstAttribute="top" secondItem="zJw-RV-yOb" secondAttribute="bottom" constant="8" symbolic="YES" id="afE-Ty-luf"/>
-                            <constraint firstItem="VZy-V8-yzN" firstAttribute="top" secondItem="1fJ-ah-dlS" secondAttribute="top" constant="20" symbolic="YES" id="gNB-jC-fEG"/>
                             <constraint firstItem="PmB-Uv-ApW" firstAttribute="firstBaseline" secondItem="zJw-RV-yOb" secondAttribute="firstBaseline" id="jjn-8E-Qyu"/>
                             <constraint firstItem="9e6-M5-2Wx" firstAttribute="leading" secondItem="1fJ-ah-dlS" secondAttribute="leading" constant="20" symbolic="YES" id="lcs-dQ-vM8"/>
                             <constraint firstItem="d7u-qT-gzM" firstAttribute="leading" secondItem="i6o-5B-bda" secondAttribute="trailing" constant="12" symbolic="YES" id="xns-AR-gqb"/>
-                            <constraint firstItem="VZy-V8-yzN" firstAttribute="centerX" secondItem="1fJ-ah-dlS" secondAttribute="centerX" id="yPL-MY-s25"/>
                             <constraint firstItem="zJw-RV-yOb" firstAttribute="leading" secondItem="PmB-Uv-ApW" secondAttribute="trailing" constant="8" symbolic="YES" id="yr4-0w-H7U"/>
                         </constraints>
                     </view>
@@ -396,7 +383,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="Cf0-Lk-5et" userLabel="Value Editor Container View">
-                                <rect key="frame" x="20" y="61" width="410" height="40"/>
+                                <rect key="frame" x="20" y="61" width="410" height="78"/>
                                 <connections>
                                     <segue destination="kQW-dI-3T4" kind="embed" id="x0o-26-rd0"/>
                                 </connections>
@@ -439,28 +426,15 @@ Gw
                                     <action selector="dismissController:" target="T0r-el-PJz" id="MMt-7t-I9g"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vQZ-VG-Lf2">
-                                <rect key="frame" x="119" y="109" width="212" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="nWj-qG-7vs"/>
-                                </constraints>
-                                <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" title="Edit Existing Default" id="heA-1i-VCu">
-                                    <font key="font" metaFont="systemBold" size="22"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Cf0-Lk-5et" firstAttribute="top" secondItem="vQZ-VG-Lf2" secondAttribute="bottom" constant="8" symbolic="YES" id="5Ci-mo-rgY"/>
+                            <constraint firstItem="Cf0-Lk-5et" firstAttribute="top" secondItem="gJK-oH-8fn" secondAttribute="top" constant="20" symbolic="YES" id="1yt-3t-Ci4"/>
                             <constraint firstAttribute="trailing" secondItem="gBo-2R-pZr" secondAttribute="trailing" constant="20" symbolic="YES" id="8AR-im-mxc"/>
-                            <constraint firstItem="vQZ-VG-Lf2" firstAttribute="centerX" secondItem="gJK-oH-8fn" secondAttribute="centerX" id="Bo1-Q2-U8T"/>
                             <constraint firstItem="gBo-2R-pZr" firstAttribute="leading" secondItem="vyH-su-N7U" secondAttribute="trailing" constant="12" symbolic="YES" id="Oad-sY-dPf"/>
                             <constraint firstAttribute="trailing" secondItem="Cf0-Lk-5et" secondAttribute="trailing" constant="20" symbolic="YES" id="Xse-Ig-5A4"/>
                             <constraint firstItem="Cf0-Lk-5et" firstAttribute="leading" secondItem="gJK-oH-8fn" secondAttribute="leading" constant="20" symbolic="YES" id="i3x-5V-fVb"/>
                             <constraint firstAttribute="bottom" secondItem="gBo-2R-pZr" secondAttribute="bottom" constant="20" symbolic="YES" id="phl-1y-ktS"/>
                             <constraint firstItem="gBo-2R-pZr" firstAttribute="top" secondItem="Cf0-Lk-5et" secondAttribute="bottom" constant="20" symbolic="YES" id="pms-87-mzQ"/>
-                            <constraint firstItem="vQZ-VG-Lf2" firstAttribute="top" secondItem="gJK-oH-8fn" secondAttribute="top" constant="20" symbolic="YES" id="urD-hW-SNP"/>
                             <constraint firstItem="vyH-su-N7U" firstAttribute="centerY" secondItem="gBo-2R-pZr" secondAttribute="centerY" id="xAn-Qw-W42"/>
                         </constraints>
                     </view>
@@ -825,7 +799,7 @@ Gw
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="x0o-26-rd0"/>
+        <segue reference="781-d0-P0P"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>

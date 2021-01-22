@@ -66,12 +66,18 @@ extension PlistEditViewController {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "showEdit":
+            let selectedRowIndex = outlineView.selectedRow
+            
+            let segue = segue as! PopoverSegue
+            segue.anchorView = outlineView.rowView(atRow: selectedRowIndex, makeIfNecessary: false)
+            segue.preferredEdge = .minX
+            
             let controller = (segue.destinationController as! AddSheetViewController)
             controller.itemOC.automaticallyPreparesContent = false
             controller.itemOC.prepareContent()
             
             let selection = controller.itemOC.selection as AnyObject
-            let (key, value) = outlineView.item(atRow: outlineView.selectedRow) as! (key: PlistKey, value: Any)
+            let (key, value) = outlineView.item(atRow: selectedRowIndex) as! (key: PlistKey, value: Any)
             let type =
                 delegate?.itemType(for: key.key)
                     ?? PlistType(typeOf: value)
@@ -267,6 +273,32 @@ extension PlistEditViewController: NSUserInterfaceValidations, NSOutlineViewDele
     @IBAction func loadExternalChanges(_ sender: Any?) {
         delegate?.loadExternalChanges()
         resetSelection()
+    }
+    
+}
+
+/// A popover segue whose parameters can be modified in code.
+@objc
+class PopoverSegue: NSStoryboardSegue {
+    
+    var popover: NSPopover = {
+        let popover = NSPopover()
+        popover.behavior = .semitransient
+        return popover
+    }()
+    
+    var behavior: NSPopover.Behavior = .semitransient
+    var anchorView: NSView?
+    var preferredEdge: NSRectEdge = .minY
+    
+    override init(identifier: NSStoryboardSegue.Identifier, source sourceController: Any, destination destinationController: Any) {
+        super.init(identifier: identifier, source: sourceController, destination: destinationController)
+        
+        popover.contentViewController = (destinationController as! NSViewController)
+    }
+    
+    override func perform() {
+        (sourceController as! NSViewController).present(destinationController as! NSViewController, asPopoverRelativeTo: .zero, of: anchorView ?? (sourceController as! NSViewController).view, preferredEdge: preferredEdge, behavior: behavior)
     }
     
 }
