@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.55"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,13 +21,14 @@
             <connections>
                 <binding destination="-2" name="toolTip" keyPath="errorString" id="eHU-de-cYd"/>
             </connections>
+            <point key="canvasLocation" x="14" y="113"/>
         </imageView>
         <customView id="Y5B-UQ-4Ce">
-            <rect key="frame" x="0.0" y="0.0" width="160" height="47"/>
+            <rect key="frame" x="0.0" y="1" width="160" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sYO-v4-7Ew">
-                    <rect key="frame" x="18" y="15" width="124" height="17"/>
+                    <rect key="frame" x="18" y="15" width="124" height="16"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="Vad-dA-VKw">
                         <font key="font" usesAppearanceFont="YES"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
