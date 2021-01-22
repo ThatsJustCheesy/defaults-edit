@@ -182,9 +182,17 @@ class PlistKeyTextColor: ValueTransformer {
 class PlistValueDisplay: ValueTransformer {
     override func transformedValue(_ value: Any?) -> Any? {
         switch value {
-            case let array as NSArray: return "[\(array.count) elements]"
-            case let dictionary as NSDictionary: return "[\(dictionary.count) key-value pairs]"
-            default: return value
+            case let array as NSArray:
+                return "[\(array.count) elements]"
+            case let dictionary as NSDictionary:
+                return "[\(dictionary.count) key-value pairs]"
+            case let number as NSNumber:
+                if NSStringFromClass(type(of: number)).range(of: "bool", options: .caseInsensitive) != nil {
+                    return number.boolValue ? "True" : "False"
+                }
+                return number
+            default:
+                return value
         }
     }
 }
