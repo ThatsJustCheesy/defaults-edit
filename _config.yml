@@ -1,1 +1,14 @@
 theme: jekyll-theme-architect
+
+title: defaults tweaks
+description: Customize macOS easily
+
+permalink: /:title/
+
+collections:
+  tweaks:
+    output: true
+  categories:
+    output: true
+  domains:
+    output: true
