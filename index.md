@@ -4,7 +4,7 @@ This is an open-source website that attempts to accessibly document the myriad o
 
 ## How to apply tweaks
 
-Easily apply and remove tweaks at will with [defaults edit](https://github.com/ThatsJustCheesy/defaults-edit), an open-source app that issues `defaults write` commands for you. Each tweak on this website includes a `defaults-edit://` link. If you have the app installed, clicking these links will open defaults edit and apply the relevant tweaks for you.
+Easily apply and remove tweaks at will with [defaults edit](https://github.com/ThatsJustCheesy/defaults-edit), an open-source visual defaults editor app. Each tweak on this website includes a `defaults-edit://` link. If you have the app installed, clicking one of these links will instruct it and apply or remove the tweak for you.
 
 Alternatively, copy and paste the code provided for each tweak to a Terminal window, and restart the relevant application or system service.
 
