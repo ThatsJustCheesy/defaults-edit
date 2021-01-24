@@ -2,7 +2,7 @@
 
 {% if tweak.categories contains page.title %}
 
-- [{{ tweak.title }}]({{ tweak.url }})
+- [{{ tweak.title }}]({{ tweak.url | relative_url }})
 
 {% endif %}
 

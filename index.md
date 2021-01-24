@@ -18,7 +18,7 @@ Alternatively, copy and paste the code provided for each tweak to a Terminal win
 
 {% for category in sorted_categories %}
 
-- [{{ category.title }}]({{ category.url }})
+- [{{ category.title }}]({{ category.url | relative_url }})
 
 {% endfor %}
 
@@ -26,7 +26,7 @@ Alternatively, copy and paste the code provided for each tweak to a Terminal win
 
 {% for domain in sorted_domains %}
 
-- [{{ domain.title }}]({{ domain.url }})
+- [{{ domain.title }}]({{ domain.url | relative_url }})
 
 {% endfor %}
 
@@ -34,6 +34,6 @@ Alternatively, copy and paste the code provided for each tweak to a Terminal win
 
 {% for tweak in sorted_tweaks %}
 
-- [{{ tweak.title }}]({{ tweak.url }})
+- [{{ tweak.title }}]({{ tweak.url | relative_url }})
 
 {% endfor %}
