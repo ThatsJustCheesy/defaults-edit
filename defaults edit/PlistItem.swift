@@ -30,6 +30,29 @@ import Foundation
             return nil
         }
     }
+    
+    init?(string: String) {
+        switch string {
+        case "string":
+            self = .string
+        case "bool", "boolean":
+            self = .boolean
+        case "int", "integer":
+            self = .integer
+        case "float":
+            self = .real
+        case "date":
+            self = .date
+        case "data":
+            self = .data
+        case "dict":
+            self = .dictionary
+        case "array":
+            self = .array
+        default:
+            return nil
+        }
+    }
 }
 
 @objc protocol PlistValue: NSObjectProtocol {

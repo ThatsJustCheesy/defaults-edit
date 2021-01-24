@@ -49,4 +49,143 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return NSStoryboard(name: "Main", bundle: nil).instantiateInitialController() != nil
     }
     
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls {
+            guard
+                let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+                components.scheme == "defaults-edit",
+                let domain = url.host,
+                let key = url.pathComponents.indices.contains(1) ? url.pathComponents[1] : nil,
+                let method = url.pathComponents.indices.contains(2) ? url.pathComponents[2] : nil
+            else {
+                continue
+            }
+            
+            guard
+                let modifier = { () -> DefaultsModifier? in
+                    switch domain {
+                    case "-g", "NSGlobalDomain", "kCFPreferencesAnyApplication":
+                        return GlobalDefaults()
+                    default:
+                        return UserDefaults(suiteName: domain)
+                    }
+                }()
+            else {
+                continue
+            }
+            
+            switch method {
+            case "write":
+                guard
+                    let query = components.queryItems,
+                    let typeParam = query.first(where: { $0.name == "type" })?.value,
+                    let valueParam = query.first(where: { $0.name == "value" })?.value
+                else {
+                    break
+                }
+                
+                confirmURLAction(editMessage: "Set ‘\(key)’ to \(valueParam) in domain \(domain)") {
+                    guard
+                        let type = PlistType(string: typeParam),
+                        let value: AnyObject = {
+                            switch type {
+                            case .string:
+                                return valueParam as NSString
+                            case .boolean:
+                                return (valueParam as NSString).boolValue as NSNumber
+                            case .integer:
+                                return (valueParam as NSString).integerValue as NSNumber
+                            case .real:
+                                return (valueParam as NSString).doubleValue as NSNumber
+                            case .date:
+                                // Unimplemented
+                                return nil
+                            case .data:
+                                return NSData(hexString: valueParam)
+                            case .dictionary, .array:
+                                // Unimplemented
+                                return nil
+                            }
+                        }()
+                    else {
+                        return
+                    }
+                    
+                    let item = PlistItem()
+                    item.key = key
+                    item.type = type
+                    item.value = value
+                    modifier.add(item)
+                    promptRestart(domain: domain)
+                }
+            case "delete":
+                confirmURLAction(editMessage: "Delete ‘\(key)’ from domain \(domain)") {
+                    modifier.removeItems(for: [key])
+                    promptRestart(domain: domain)
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+}
+
+private func confirmURLAction(editMessage: String, onSuccess: @escaping () -> Void) {
+    DispatchQueue.main.async {
+        let alert = NSAlert()
+        alert.messageText = "The following change was proposed via URL:\n\n\(editMessage)\n"
+        alert.informativeText = "Only allow this if you trust the source."
+        alert.addButton(withTitle: "Allow")
+        alert.addButton(withTitle: "Deny")
+        switch alert.runModal() {
+        case .alertFirstButtonReturn:
+            onSuccess()
+        default:
+            break
+        }
+    }
+}
+
+private var terminatedObservation: NSKeyValueObservation?
+private var observedApp: NSRunningApplication?
+private var appTerminationQueue = DispatchQueue(label: "App termination")
+private func promptRestart(domain: String) {
+    DispatchQueue.main.async {
+        let alert = NSAlert()
+        alert.messageText = "The edit to \(domain) was successful."
+        
+        if let app = NSWorkspace.shared.runningApplications.first(where: { $0.bundleIdentifier == domain }) {
+            alert.informativeText = "Would you like to restart \(app.localizedName ?? domain) for the changes to take effect?"
+            alert.addButton(withTitle: "Restart")
+            alert.addButton(withTitle: "Later")
+            switch alert.runModal() {
+            case .alertFirstButtonReturn:
+                appTerminationQueue.async {
+                    let sema = DispatchSemaphore(value: 0)
+                    defer {
+                        sema.wait()
+                    }
+                    
+                    observedApp = app
+                    terminatedObservation = app.observe(\.isTerminated) { (app, change) in
+                        terminatedObservation?.invalidate()
+                        
+                        if let appURL = app.bundleURL {
+                            _ = try? NSWorkspace.shared.launchApplication(at: appURL, options: [.withoutActivation, .withErrorPresentation], configuration: [:])
+                        } else {
+                            NSWorkspace.shared.launchApplication(withBundleIdentifier: domain, options: [.withoutActivation, .withErrorPresentation], additionalEventParamDescriptor: nil, launchIdentifier: nil)
+                        }
+                        
+                        sema.signal()
+                    }
+                    app.terminate()
+                }
+            default:
+                break
+            }
+        } else {
+            alert.runModal()
+        }
+    }
 }
