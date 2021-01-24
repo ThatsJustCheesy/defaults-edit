@@ -1,37 +1,39 @@
-## Welcome to GitHub Pages
+# Welcome to defaults tweaks
 
-You can use the [editor on GitHub](https://github.com/ThatsJustCheesy/defaults-edit/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This is an open-source website that attempts to accessibly document the myriad of hidden settings typically accessed via the `defaults write` command on macOS.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## How to apply tweaks
 
-### Markdown
+Easily apply and remove tweaks at will with [defaults edit](https://github.com/ThatsJustCheesy/defaults-edit), an open-source visual defaults editor app. Each tweak on this website includes a `defaults-edit://` link. If you have the app installed, clicking one of these links will instruct it and apply or remove the tweak for you.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Alternatively, copy and paste the code provided for each tweak to a Terminal window, and restart the relevant application or system service.
 
-```markdown
-Syntax highlighted code block
+# Browse tweaks
 
-# Header 1
-## Header 2
-### Header 3
+{% assign sorted_categories = site.categories | sort_natural:"title" %}
+{% assign sorted_domains = site.domains | sort_natural:"title" %}
+{% assign sorted_tweaks = site.tweaks | sort_natural:"title" %}
 
-- Bulleted
-- List
+## By category
 
-1. Numbered
-2. List
+{% for category in sorted_categories %}
 
-**Bold** and _Italic_ and `Code` text
+- [{{ category.title }}]({{ category.url }})
 
-[Link](url) and ![Image](src)
-```
+{% endfor %}
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## By app/domain
 
-### Jekyll Themes
+{% for domain in sorted_domains %}
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ThatsJustCheesy/defaults-edit/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+- [{{ domain.title }}]({{ domain.url }})
 
-### Support or Contact
+{% endfor %}
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## All tweaks
+
+{% for tweak in sorted_tweaks %}
+
+- [{{ tweak.title }}]({{ tweak.url }})
+
+{% endfor %}
