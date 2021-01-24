@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             guard
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
                 components.scheme == "defaults-edit",
-                let domain = url.host,
+                var domain = url.host,
                 let key = url.pathComponents.indices.contains(1) ? url.pathComponents[1] : nil,
                 let method = url.pathComponents.indices.contains(2) ? url.pathComponents[2] : nil
             else {
@@ -65,6 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let modifier = { () -> DefaultsModifier? in
                     switch domain {
                     case "-g", "NSGlobalDomain", "kCFPreferencesAnyApplication":
+                        domain = "(global domain)"
                         return GlobalDefaults()
                     default:
                         return UserDefaults(suiteName: domain)
