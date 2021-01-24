@@ -40,10 +40,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(true, forKey: suppressWarningAlertKey)
         }
     }
-
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
-    }
     
     func applicationOpenUntitledFile(_ sender: NSApplication) -> Bool {
         return NSStoryboard(name: "Main", bundle: nil).instantiateInitialController() != nil
