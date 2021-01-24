@@ -25,5 +25,4 @@
 </div>
 
 <button onclick="copyCode({{ id }})">Copy code</button>
-
-<button onclick="window.open('{{ defaults-edit-url }}')">Run in defaults edit</button>
+<button onclick="window.open('{{ defaults-edit-url }}')">Apply with defaults edit</button>
