@@ -59,5 +59,5 @@ function copyTextToClipboard(text) {
 
 function copyCode(id) {
   const codeElement = $(`#code-${id} code`)[0];
-  copyTextToClipboard(codeElement.textContent);
+  copyTextToClipboard(codeElement.textContent.trim());
 }
