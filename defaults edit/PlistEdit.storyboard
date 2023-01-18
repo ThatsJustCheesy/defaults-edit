@@ -14,16 +14,16 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="2Er-4e-16Z" userLabel="Listing &amp; Editor Commands">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="351"/>
+                                <rect key="frame" x="0.0" y="0.0" width="335" height="351"/>
                                 <subviews>
                                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="MJ3-uv-K87">
                                         <rect key="frame" x="242" y="155" width="16" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </progressIndicator>
                                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-27-qFN">
-                                        <rect key="frame" x="0.0" y="32" width="435" height="319"/>
+                                        <rect key="frame" x="0.0" y="32" width="335" height="319"/>
                                         <clipView key="contentView" drawsBackground="NO" id="hvt-Ia-8Uz">
-                                            <rect key="frame" x="1" y="1" width="433" height="317"/>
+                                            <rect key="frame" x="1" y="1" width="333" height="317"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="rEl-gj-cMG" viewBased="YES" indentationPerLevel="16" outlineTableColumn="GuN-zd-LOG" id="O0F-0K-SBz" customClass="TabSelectableOutlineView" customModule="defaults_edit" customModuleProvider="target">
@@ -148,7 +148,7 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="fiz-J2-h9h"/>
                                         </constraints>
                                         <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="tbr-o3-o4c">
-                                            <rect key="frame" x="1" y="302" width="433" height="16"/>
+                                            <rect key="frame" x="1" y="302" width="333" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ntk-ZP-cvt">
@@ -221,7 +221,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="600" id="0dZ-ns-lIl"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="1200" id="0dZ-ns-lIl"/>
                                     <constraint firstItem="HbY-35-bCm" firstAttribute="leading" secondItem="dMH-Z6-43z" secondAttribute="trailing" constant="-1" id="54c-26-mbO"/>
                                     <constraint firstItem="7x8-VV-ydi" firstAttribute="centerY" secondItem="5Lf-Se-Ykv" secondAttribute="centerY" id="73E-Kp-sHI"/>
                                     <constraint firstAttribute="bottom" secondItem="dMH-Z6-43z" secondAttribute="bottom" id="Gpu-Fu-QtV"/>
