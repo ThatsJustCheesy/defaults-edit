@@ -14,20 +14,20 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="2Er-4e-16Z" userLabel="Listing &amp; Editor Commands">
-                                <rect key="frame" x="0.0" y="0.0" width="275" height="273"/>
+                                <rect key="frame" x="0.0" y="0.0" width="460" height="351"/>
                                 <subviews>
                                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="MJ3-uv-K87">
-                                        <rect key="frame" x="242" y="77" width="16" height="16"/>
+                                        <rect key="frame" x="242" y="155" width="16" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </progressIndicator>
                                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-27-qFN">
-                                        <rect key="frame" x="0.0" y="32" width="295" height="241"/>
+                                        <rect key="frame" x="0.0" y="32" width="460" height="319"/>
                                         <clipView key="contentView" drawsBackground="NO" id="hvt-Ia-8Uz">
-                                            <rect key="frame" x="1" y="1" width="293" height="224"/>
+                                            <rect key="frame" x="1" y="1" width="458" height="317"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="rEl-gj-cMG" viewBased="YES" indentationPerLevel="16" outlineTableColumn="GuN-zd-LOG" id="O0F-0K-SBz" customClass="TabSelectableOutlineView" customModule="defaults_edit" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="557" height="199"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="557" height="292"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -148,7 +148,7 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="fiz-J2-h9h"/>
                                         </constraints>
                                         <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="tbr-o3-o4c">
-                                            <rect key="frame" x="1" y="225" width="293" height="15"/>
+                                            <rect key="frame" x="1" y="302" width="458" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ntk-ZP-cvt">
@@ -200,7 +200,7 @@
                                         </connections>
                                     </button>
                                     <button toolTip="Load external changes" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7x8-VV-ydi" userLabel="Refresh">
-                                        <rect key="frame" x="176" y="-2" width="28" height="27"/>
+                                        <rect key="frame" x="175" y="-2" width="28" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="b4O-dq-U8e"/>
                                         </constraints>
@@ -213,7 +213,7 @@
                                         </connections>
                                     </button>
                                     <button toolTip="Move value to new key" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Lf-Se-Ykv">
-                                        <rect key="frame" x="104" y="-2" width="66" height="27"/>
+                                        <rect key="frame" x="104" y="-2" width="65" height="27"/>
                                         <buttonCell key="cell" type="roundTextured" title="Rename" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KAd-7G-HiH">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
