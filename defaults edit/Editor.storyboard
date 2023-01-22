@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,14 +10,14 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="defaults_edit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="700" height="475"/>
+                        <rect key="frame" x="0.0" y="0.0" width="700" height="476"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="750" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roj-9d-5U6">
-                                <rect key="frame" x="20" y="10" width="660" height="445"/>
+                                <rect key="frame" x="20" y="10" width="660" height="446"/>
                                 <subviews>
                                     <customView horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ppP-56-oxe" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="383" width="660" height="62"/>
+                                        <rect key="frame" x="0.0" y="384" width="660" height="62"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
                                                 <rect key="frame" x="-2" y="32" width="129" height="30"/>
@@ -61,10 +60,10 @@
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
-                                        <rect key="frame" x="0.0" y="323" width="660" height="60"/>
+                                        <rect key="frame" x="0.0" y="323" width="660" height="61"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
-                                                <rect key="frame" x="-2" y="37" width="50" height="20"/>
+                                                <rect key="frame" x="-2" y="38" width="50" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="W1z-lW-zsB"/>
                                                 </constraints>
@@ -75,7 +74,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
-                                                <rect key="frame" x="54" y="39" width="606" height="21"/>
+                                                <rect key="frame" x="54" y="40" width="606" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="x9J-3Q-fA2"/>
                                                 </constraints>
@@ -95,7 +94,7 @@
                                                 </connections>
                                             </textField>
                                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZuN-ML-MAy">
-                                                <rect key="frame" x="92" y="8" width="248" height="24"/>
+                                                <rect key="frame" x="92" y="9" width="230" height="24"/>
                                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Uau-pE-OKE">
                                                     <font key="font" metaFont="system"/>
                                                     <segments>
