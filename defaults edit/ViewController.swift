@@ -327,19 +327,11 @@ extension ViewController: PlistEditDelegate {
         process.standardOutput = processOut
         
         let launchPath = "/usr/bin/defaults"
-        if #available(macOS 10.13, *) {
-            process.executableURL = URL(fileURLWithPath: launchPath)
-        } else {
-            process.launchPath = launchPath
-        }
+        process.executableURL = URL(fileURLWithPath: launchPath)
         process.arguments = arguments
         process.qualityOfService = .userInteractive
         
-        if #available(macOS 10.13, *) {
-            try! process.run()
-        } else {
-            process.launch()
-        }
+        try! process.run()
         return process
     }
     

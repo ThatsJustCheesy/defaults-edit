@@ -117,18 +117,10 @@ class OpenSheetViewController: NSViewController {
         let processOut = Pipe()
         process.standardOutput = processOut
         let launchPath = "/usr/bin/defaults"
-        if #available(macOS 10.13, *) {
-            process.executableURL = URL(fileURLWithPath: launchPath)
-        } else {
-            process.launchPath = launchPath
-        }
+        process.executableURL = URL(fileURLWithPath: launchPath)
         process.arguments = ["domains"]
         process.qualityOfService = .userInitiated
-        if #available(macOS 10.13, *) {
-            try! process.run()
-        } else {
-            process.launch()
-        }
+        try! process.run()
         process.waitUntilExit()
         if process.terminationStatus == 0 {
             domains.formUnion(String(data: processOut.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)!.components(separatedBy: ", ").map { DefaultsDomain(domainName: String($0)) })
