@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22690"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,7 +20,7 @@
                                     <customView horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ppP-56-oxe" userLabel="Title">
                                         <rect key="frame" x="0.0" y="384" width="660" height="62"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
+                                            <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
                                                 <rect key="frame" x="-2" y="32" width="129" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="xKE-ce-c18"/>
@@ -33,13 +34,13 @@
                                                     <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.localizedName" id="EjM-qr-MzE"/>
                                                 </connections>
                                             </textField>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWY-dH-Wa0">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWY-dH-Wa0">
                                                 <rect key="frame" x="-2" y="0.0" width="180" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="qgU-tf-vrK"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" selectable="YES" title="com.justcheesy.defaults-edit" id="KII-uZ-2UD">
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -62,18 +63,18 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
                                         <rect key="frame" x="0.0" y="323" width="660" height="61"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
                                                 <rect key="frame" x="-2" y="38" width="50" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="W1z-lW-zsB"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Search:" id="cCw-go-yai">
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
                                                 <rect key="frame" x="54" y="40" width="606" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="x9J-3Q-fA2"/>
@@ -96,7 +97,7 @@
                                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZuN-ML-MAy">
                                                 <rect key="frame" x="92" y="9" width="230" height="24"/>
                                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Uau-pE-OKE">
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
                                                     <segments>
                                                         <segment label="Set in Domain" selected="YES"/>
                                                         <segment label="Effective in Domain" tag="1"/>
@@ -110,10 +111,10 @@
                                                     </binding>
                                                 </connections>
                                             </segmentedControl>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-CX-UyB">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-CX-UyB">
                                                 <rect key="frame" x="-2" y="13" width="90" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="View defaults:" id="vxz-f6-7Uh">
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>

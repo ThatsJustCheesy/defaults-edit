@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -192,7 +192,7 @@
 				TargetAttributes = {
 					3C9A3FE2222F15AD00789FD0 = {
 						CreatedOnToolsVersion = 10.2;
-						LastSwiftMigration = 1020;
+						LastSwiftMigration = 1540;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -414,7 +414,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justcheesy.defaults-edit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -437,7 +437,7 @@
 				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justcheesy.defaults-edit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
