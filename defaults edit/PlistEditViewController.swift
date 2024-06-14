@@ -61,6 +61,75 @@ class PlistEditViewController: NSViewController {
     
 }
 
+typealias PlistKey = (key: String, isDecoy: Bool)
+
+class PlistOutlineItem<Value> {
+    
+    var key: PlistKey
+    var value: Value
+    
+    lazy var root: PlistOutlineItem = self
+    var indexPath: [Int]
+    
+    internal init(key: PlistKey, value: Value, root: PlistOutlineItem?, indexPath: [Int]) {
+        self.key = key
+        self.value = value
+        self.indexPath = indexPath
+        if let root = root {
+            self.root = root
+        }
+    }
+}
+
+func replace(inKey key: String, value: Any, at indexPath: ArraySlice<Int>, withKey newKey: String, value newValue: Any) -> (key: String, value: Any) {
+    switch value {
+    case let dictionary as [String : Any]:
+        return replace(inKey: key, dictionary: dictionary, at: indexPath, withKey: newKey, value: newValue)
+    case let array as [Any]:
+        return replace(inKey: key, array: array, at: indexPath, withKey: newKey, value: newValue)
+    default:
+        return (key: newKey, value: newValue)
+    }
+}
+func replace(inKey key: String, dictionary: [String : Any], at indexPath: ArraySlice<Int>, withKey newKey: String, value newValue: Any) -> (key: String, value: Any) {
+    if indexPath.isEmpty {
+        return (key: key, value: dictionary)
+    } else  {
+        let index = dictionary.index(dictionary.startIndex, offsetBy: indexPath[0])
+        
+        if indexPath.count == 1 {
+            let oldKey = dictionary[index].key
+            
+            var dictionary = dictionary
+            if newKey == oldKey {
+                dictionary[oldKey] = newValue
+            } else {
+                dictionary.remove(at: index)
+                dictionary[newKey] = newValue
+            }
+            return (key: key, value: dictionary)
+        } else {
+            return replace(inKey: key, value: dictionary[index].value, at: indexPath.dropFirst(), withKey: newKey, value: newValue)
+        }
+    }
+}
+func replace(inKey key: String, array: [Any], at indexPath: ArraySlice<Int>, withKey newKey: String, value newValue: Any) -> (key: String, value: Any) {
+    if indexPath.isEmpty {
+        return (key: key, value: array)
+    } else {
+        let index = indexPath[0]
+        
+        if indexPath.count == 1 {
+            // Intentionally ignore newKey
+            var array = array
+            array[indexPath[0]] = newValue
+            return (key: key, value: array)
+        } else {
+            return replace(inKey: key, value: array[index], at: indexPath.dropFirst(), withKey: newKey, value: newValue)
+        }
+    }
+}
+
 extension PlistEditViewController {
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -77,15 +146,25 @@ extension PlistEditViewController {
             controller.itemOC.prepareContent()
             
             let selection = controller.itemOC.selection as AnyObject
-            let (key, value) = outlineView.item(atRow: selectedRowIndex) as! (key: PlistKey, value: Any)
+            let item = outlineView.item(atRow: selectedRowIndex) as! PlistOutlineItem<Any>
             let type =
-                delegate?.itemType(for: key.key)
-                    ?? PlistType(typeOf: value)
+                delegate?.itemType(for: item.key.key)
+                    ?? PlistType(typeOf: item.value)
                     ?? .string
             
-            selection.setValue(key.key, forKey: #keyPath(PlistItem.key))
+            selection.setValue(item.key.key, forKey: #keyPath(PlistItem.key))
             selection.setValue(NSNumber(value: type.rawValue), forKey: #keyPath(PlistItem.type))
-            selection.setValue(value as AnyObject, forKey: #keyPath(PlistItem.value))
+            selection.setValue(item.value as AnyObject, forKey: #keyPath(PlistItem.value))
+            
+            controller.itemController.content!.generatePersistentRepresentation = { editedItem in
+                return replace(
+                    inKey: item.root.key.key,
+                    value: item.root.value,
+                    at: item.indexPath[...],
+                    withKey: editedItem.key,
+                    value: editedItem.value as Any
+                )
+            }
         default:
             super.prepare(for: segue, sender: sender)
         }
@@ -93,29 +172,44 @@ extension PlistEditViewController {
     
 }
 
-typealias PlistKey = (key: String, isDecoy: Bool)
-
 private func <(l: (key: String, value: Any), r: (key: String, value: Any)) -> Bool {
     return l.key < r.key
 }
 
 extension PlistEditViewController: NSOutlineViewDataSource {
     
-    private func dictionary(for item: Any?) -> [(key: String, value: Any)]? {
-        if item == nil {
-            return (plist as? [String : Any])?.sorted { $0 < $1 }
-        } else if let (_, value) = item as? (key: PlistKey, value: [String : Any]) {
-            return value.sorted { $0 < $1 }
+    private func root(forParent parentItem: Any?, child: String) -> PlistOutlineItem<Any>? {
+        if parentItem == nil {
+            return nil
         } else {
+            return (parentItem as! PlistOutlineItem<Any>)
+        }
+    }
+    private func indexPath(fromParent parentItem: Any?, toChild childIndex: Int) -> [Int] {
+        if parentItem == nil {
+            return []
+        } else {
+            return (parentItem as! PlistOutlineItem<Any>).indexPath + [childIndex]
+        }
+    }
+    
+    private func dictionary(for item: Any?) -> [(key: String, value: Any)]? {
+        switch (item as? PlistOutlineItem<Any>)?.value {
+        case nil:
+            return (plist as? [String : Any])?.sorted { $0 < $1 }
+        case let value as [String : Any]:
+            return value.sorted { $0 < $1 }
+        default:
             return nil
         }
     }
     private func array(for item: Any?) -> [Any]? {
-        if item == nil {
+        switch (item as? PlistOutlineItem<Any>)?.value {
+        case nil:
             return plist as? [Any]
-        } else if let (_, value) = item as? (key: PlistKey, value: [Any]) {
+        case let value as [Any]:
             return value
-        } else {
+        default:
             return nil
         }
     }
@@ -124,15 +218,33 @@ extension PlistEditViewController: NSOutlineViewDataSource {
         if let dictionary = self.dictionary(for: item) {
             let dictionaryIndex = dictionary.index(dictionary.startIndex, offsetBy: index)
             let (key, value) = dictionary[dictionaryIndex]
-            return (key: (key: key, isDecoy: false), value: value)
+            return PlistOutlineItem(
+                key: (key: key, isDecoy: false),
+                value: value,
+                root: root(forParent: item, child: key),
+                indexPath: indexPath(fromParent: item, toChild: dictionaryIndex)
+            )
+        } else {
+            let array = self.array(for: item)!
+            let value = array[index]
+            return PlistOutlineItem(
+                key: (key: String(index), isDecoy: true),
+                value: value,
+                root: root(forParent: item, child: String(index)),
+                indexPath: indexPath(fromParent: item, toChild: index)
+            )
         }
-        let array = self.array(for: item)!
-        let value = array[index]
-        return (key: (key: String(index), isDecoy: true), value: value)
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return item is (key: PlistKey, value: [String : Any]) || item is (key: PlistKey, value: [Any])
+        switch (item as? PlistOutlineItem<Any>)?.value {
+        case is [String : Any]:
+                return true
+        case is [Any]:
+                return true
+        default:
+            return false
+        }
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
@@ -140,7 +252,7 @@ extension PlistEditViewController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        let item = item as! (key: PlistKey, value: Any)
+        let item = item as! PlistOutlineItem<Any>
         switch tableColumn!.identifier.rawValue {
             case "Key": return item.key
             case "Value": return item.value
@@ -231,11 +343,11 @@ extension PlistEditViewController: NSUserInterfaceValidations, NSOutlineViewDele
         guard
             let outlineView = outlineView,
             outlineView.selectedRow != -1,
-            let (_, value) = outlineView.item(atRow: outlineView.selectedRow) as? (key: PlistKey, value: Any)
+            let item = outlineView.item(atRow: outlineView.selectedRow) as? PlistOutlineItem<Any>
         else {
             return false
         }
-        return !(value is [Any] || value is [String : Any])
+        return !(item.value is [Any] || item.value is [String : Any])
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
@@ -265,7 +377,7 @@ extension PlistEditViewController: NSUserInterfaceValidations, NSOutlineViewDele
     
     @IBAction func delete(_ sender: Any?) {
         remove(itemsFor: Set<String>(outlineView.selectedRowIndexes.map { index in
-            return (outlineView.item(atRow: index) as! (key: PlistKey, value: Any)).key.key
+            return (outlineView.item(atRow: index) as! PlistOutlineItem<Any>).key.key
         }))
     }
     

@@ -90,4 +90,14 @@ class PlistItem: NSObject, PlistValue {
         }
     }
     
+    var generatePersistentRepresentation: (PlistItem) -> (key: String, value: Any?) = {
+        (key: $0.key, value: $0.value)
+    }
+    
+    var persistentRepresentation: (key: String, value: Any?) {
+        get {
+            return self.generatePersistentRepresentation(self)
+        }
+    }
+    
 }

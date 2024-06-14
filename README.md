@@ -35,12 +35,7 @@ brew install thatsjustcheesy/tap/defaults-edit
 
 ## Todos
 
-- Ability to add arrays and dictionaries
-- Ability to edit contents of arrays and dictionaries
+- Ability to add items to arrays and dictionaries
 - Implement Rename, which moves value to new key
 - Duplicate, which copies value to new key
 - Relaunch button when editing app defaults
-
-## Bugs
-
-- Selecting "Array" or "Dictionary" as a value's type currently crashes. This is simply unimplemented right now, but that should change.

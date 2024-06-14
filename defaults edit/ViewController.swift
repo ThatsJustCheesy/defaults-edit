@@ -30,7 +30,8 @@ protocol DefaultsModifier {
 extension UserDefaults: DefaultsModifier {
     
     func add(_ item: PlistItem) {
-        set(item.value ?? "", forKey: item.key)
+        let (key, value) = item.persistentRepresentation
+        set(value ?? "", forKey: key)
     }
     
     func removeItems(for keys: Set<String>) {
@@ -47,7 +48,8 @@ extension UserDefaults: DefaultsModifier {
 struct GlobalDefaults: DefaultsModifier {
     
     func add(_ item: PlistItem) {
-        CFPreferencesSetValue(item.key as CFString, item.value as CFPropertyList, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        let (key, value) = item.persistentRepresentation
+        CFPreferencesSetValue(key as CFString, value as CFPropertyList, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
         synchronize()
     }
     
