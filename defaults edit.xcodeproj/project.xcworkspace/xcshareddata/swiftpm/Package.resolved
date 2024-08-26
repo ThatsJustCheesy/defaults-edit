@@ -1,0 +1,15 @@
+{
+  "originHash" : "71c3e5b195592fa033a36452a4715b53ab2fb27202825799e6c02d7dff961a0c",
+  "pins" : [
+    {
+      "identity" : "data-fasthex",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ThatsJustCheesy/Data-FastHex",
+      "state" : {
+        "revision" : "631b50b19c4346657c90581492d0070a70fd4b38",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
