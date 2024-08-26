@@ -65,8 +65,6 @@
 		3C4F9C8D2235A12600F60008 /* ValueTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueTransformers.swift; sourceTree = "<group>"; };
 		3C6CB2842235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+NameSynthesis.h"; sourceTree = "<group>"; };
 		3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+NameSynthesis.m"; sourceTree = "<group>"; };
-		3C6CB2872235AE4D006BFBA3 /* Swizzlean.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swizzlean.framework; path = Carthage/Build/iOS/Swizzlean.framework; sourceTree = "<group>"; };
-		3C6CB28D2235AECF006BFBA3 /* Swizzlean.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Swizzlean.framework.dSYM; path = Carthage/Build/iOS/Swizzlean.framework.dSYM; sourceTree = "<group>"; };
 		3C7B70FC2C1C972500C219A6 /* defaults edit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "defaults edit.entitlements"; sourceTree = "<group>"; };
 		3C9A3FE3222F15AD00789FD0 /* defaults edit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "defaults edit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9A3FE6222F15AD00789FD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,20 +96,108 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C6CB28F2235AEDA006BFBA3 /* Frameworks */ = {
+		3C6A88A52C7CAB22004CF5FE /* PlistEditor */ = {
 			isa = PBXGroup;
 			children = (
-				3C6CB2872235AE4D006BFBA3 /* Swizzlean.framework */,
-				3C6CB28D2235AECF006BFBA3 /* Swizzlean.framework.dSYM */,
+				3C27B0F1223BF49B001E6B91 /* PlistEdit.storyboard */,
+				3C27B0F3223BF510001E6B91 /* PlistEditViewController.swift */,
+				3C27B0F5223C93DB001E6B91 /* AddSheetViewController.swift */,
+				3CE254AE22DE58EA00F498B3 /* PlistItem.swift */,
+				3CE254B022DE596300F498B3 /* PlistValueEditor.swift */,
+				3C0C29B1248C4A80007CCC84 /* FastHexTransformer.swift */,
 			);
-			name = Frameworks;
+			path = PlistEditor;
+			sourceTree = "<group>";
+		};
+		3C6A88A72C7CAC05004CF5FE /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				3CE254AC22DE587700F498B3 /* ModelDataPropagation.swift */,
+				3C6A88A82C7CAC71004CF5FE /* ValueTransformers */,
+				3C6A88A92C7CAC9C004CF5FE /* UIElements */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
+		3C6A88A82C7CAC71004CF5FE /* ValueTransformers */ = {
+			isa = PBXGroup;
+			children = (
+				3C4F9C8D2235A12600F60008 /* ValueTransformers.swift */,
+				3C6CB2842235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.h */,
+				3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */,
+			);
+			path = ValueTransformers;
+			sourceTree = "<group>";
+		};
+		3C6A88A92C7CAC9C004CF5FE /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				3C6A88AA2C7CACB8004CF5FE /* InvalidDataMarker */,
+				3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */,
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
+		3C6A88AA2C7CACB8004CF5FE /* InvalidDataMarker */ = {
+			isa = PBXGroup;
+			children = (
+				3C2D8F03223DD5A5003245D0 /* InvalidDataMarker.xib */,
+				3C3217122245489400E47131 /* InvalidDataMarker.swift */,
+			);
+			path = InvalidDataMarker;
+			sourceTree = "<group>";
+		};
+		3C6A88AB2C7CACCE004CF5FE /* DefaultsEdit */ = {
+			isa = PBXGroup;
+			children = (
+				3C6A88AC2C7CACF6004CF5FE /* Model */,
+				3C6A88AD2C7CAD25004CF5FE /* UI */,
+			);
+			path = DefaultsEdit;
+			sourceTree = "<group>";
+		};
+		3C6A88AC2C7CACF6004CF5FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3C6A88AD2C7CAD25004CF5FE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3C6A88AF2C7CAD80004CF5FE /* Main */,
+				3C6A88AE2C7CAD62004CF5FE /* Editor */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3C6A88AE2C7CAD62004CF5FE /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				3C27B0EF223BF3B5001E6B91 /* Editor.storyboard */,
+				3C9A3FE8222F15AD00789FD0 /* ViewController.swift */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
+		3C6A88AF2C7CAD80004CF5FE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				3C9A3FEC222F15AF00789FD0 /* Main.storyboard */,
+				3C9A3FE6222F15AD00789FD0 /* AppDelegate.swift */,
+				3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */,
+				3C9A3FF6222F168C00789FD0 /* WindowController.swift */,
+				3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		3C9A3FDA222F15AD00789FD0 = {
 			isa = PBXGroup;
 			children = (
 				3C9A3FE5222F15AD00789FD0 /* defaults edit */,
-				3C6CB28F2235AEDA006BFBA3 /* Frameworks */,
 				3C9A3FE4222F15AD00789FD0 /* Products */,
 				3CB3EE512301E1910006D9D2 /* README.md */,
 			);
@@ -128,29 +214,11 @@
 		3C9A3FE5222F15AD00789FD0 /* defaults edit */ = {
 			isa = PBXGroup;
 			children = (
+				3C6A88AB2C7CACCE004CF5FE /* DefaultsEdit */,
+				3C6A88A52C7CAB22004CF5FE /* PlistEditor */,
+				3C6A88A72C7CAC05004CF5FE /* Framework */,
 				3C7B70FC2C1C972500C219A6 /* defaults edit.entitlements */,
-				3CDBA88E224A9D4100C49512 /* DefaultsDomain.swift */,
-				3C9A3FE6222F15AD00789FD0 /* AppDelegate.swift */,
-				3CBDAFFD2300841B0054C654 /* RecentsMenu.swift */,
-				3C9A3FF6222F168C00789FD0 /* WindowController.swift */,
-				3C9A3FE8222F15AD00789FD0 /* ViewController.swift */,
-				3C9A3FF8222F3CE800789FD0 /* OpenSheetViewController.swift */,
-				3C27B0F3223BF510001E6B91 /* PlistEditViewController.swift */,
-				3C27B0F5223C93DB001E6B91 /* AddSheetViewController.swift */,
-				3CE254B022DE596300F498B3 /* PlistValueEditor.swift */,
-				3CE254AE22DE58EA00F498B3 /* PlistItem.swift */,
-				3CE254AC22DE587700F498B3 /* ModelDataPropagation.swift */,
-				3C4F9C8D2235A12600F60008 /* ValueTransformers.swift */,
-				3C2D8F03223DD5A5003245D0 /* InvalidDataMarker.xib */,
-				3C3217122245489400E47131 /* InvalidDataMarker.swift */,
-				3CB3EE5423022D6A0006D9D2 /* TabSelectableTableView.swift */,
-				3C0C29B1248C4A80007CCC84 /* FastHexTransformer.swift */,
-				3C6CB2842235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.h */,
-				3C6CB2852235AB47006BFBA3 /* NSValueTransformer+NameSynthesis.m */,
 				3C9A3FEA222F15AF00789FD0 /* Assets.xcassets */,
-				3C9A3FEC222F15AF00789FD0 /* Main.storyboard */,
-				3C27B0EF223BF3B5001E6B91 /* Editor.storyboard */,
-				3C27B0F1223BF49B001E6B91 /* PlistEdit.storyboard */,
 				3C9A3FEF222F15AF00789FD0 /* Info.plist */,
 				3C9A3FF0222F15AF00789FD0 /* defaults_edit.entitlements */,
 			);

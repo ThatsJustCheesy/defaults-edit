@@ -37,7 +37,7 @@ original:
 
 @end
 
-@interface AppDelegate (Swizzling)
+@interface AppDelegate (NSValueTransformerNameSynthesisSwizzling)
 @end
 
 static void swizzleClassMethod(Class clas, SEL targetSel, SEL newSel) {
@@ -49,7 +49,7 @@ static void swizzleInstanceMethod(Class clas, SEL targetSel, SEL newSel) {
     method_exchangeImplementations(class_getInstanceMethod(clas, targetSel), class_getInstanceMethod(clas, newSel));
 }
 
-@implementation AppDelegate (Swizzling)
+@implementation AppDelegate (NSValueTransformerNameSynthesisSwizzling)
 
 + (void)initialize {
     swizzleClassMethod([NSValueTransformer class], @selector(valueTransformerForName:), @selector(TJC_valueTransformerForName:));
