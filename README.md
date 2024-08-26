@@ -38,4 +38,3 @@ brew install thatsjustcheesy/tap/defaults-edit
 - Ability to add items to arrays and dictionaries
 - Implement Rename, which moves value to new key
 - Duplicate, which copies value to new key
-- Relaunch button when editing app defaults

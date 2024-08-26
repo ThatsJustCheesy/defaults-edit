@@ -194,6 +194,49 @@ class ViewController: NSViewController {
         cachedDefaultsSetInDomain = nil
     }
     
+    /// Whether the selected domain is for an application.
+    @objc dynamic var isAppDomain: Bool = false
+    
+    /// Updates `isAppDomain` to reflect the currently selected domain.
+    private func computeIsAppDomain() {
+        guard let domainName = representedDomain.domainName else {
+            isAppDomain = false
+            return
+        }
+        
+        isAppDomain = (NSWorkspace.shared.urlForApplication(withBundleIdentifier: domainName) != nil)
+    }
+    
+    private var observedApp: NSRunningApplication?
+    private var terminationObservation: NSKeyValueObservation?
+    
+    /// When the selected domain is for an application, attempts to relaunch
+    /// that application.
+    @IBAction func relaunchApp(_ sender: Any?) {
+        guard let domainName = representedDomain.domainName else {
+            return
+        }
+        
+        let runningApp = NSRunningApplication.runningApplications(withBundleIdentifier: domainName).first
+        if let runningApp = runningApp, !runningApp.isTerminated {
+            observedApp = runningApp
+            terminationObservation = runningApp.observe(\.isTerminated, changeHandler: { [weak self] _, change in
+                self?.terminationObservation?.invalidate()
+                self?.launchApp(bundleID: domainName)
+            })
+            runningApp.terminate()
+        } else {
+            launchApp(bundleID: domainName)
+        }
+    }
+    
+    private func launchApp(bundleID: String) {
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
+            return
+        }
+        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+    
     /// Shows the Open Defaults Domain sheet on the view's window, and closes
     /// the window if the user cancels the sheet.
     override func viewWillAppear() {
@@ -219,6 +262,8 @@ class ViewController: NSViewController {
                 showingDefaultsEffectiveInDomain = false
             }
             viewTypeSC.setEnabled(canShowEffectiveInDomain, forSegment: 1)
+            
+            computeIsAppDomain()
         }
     }
     

@@ -48,16 +48,34 @@
                                                     <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.domainName" id="dk4-RH-iwP"/>
                                                 </connections>
                                             </textField>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lqS-ss-mU0">
+                                                <rect key="frame" x="183" y="9" width="100" height="23"/>
+                                                <buttonCell key="cell" type="roundTextured" title="Relaunch App" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Bgn-Sf-Soj">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="relaunchApp:" target="XfG-lQ-9wD" id="32Y-GN-wzz"/>
+                                                    <binding destination="XfG-lQ-9wD" name="hidden" keyPath="isAppDomain" id="1nj-bX-JXJ">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="lqS-ss-mU0" firstAttribute="firstBaseline" secondItem="EWY-dH-Wa0" secondAttribute="firstBaseline" id="877-fY-klj"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qik-PV-DGZ" secondAttribute="trailing" priority="750" id="BW2-1x-LYB"/>
                                             <constraint firstItem="EWY-dH-Wa0" firstAttribute="leading" secondItem="qik-PV-DGZ" secondAttribute="leading" id="HsT-bg-qFU"/>
                                             <constraint firstItem="qik-PV-DGZ" firstAttribute="top" secondItem="ppP-56-oxe" secondAttribute="top" id="IP5-hd-ldx"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EWY-dH-Wa0" secondAttribute="trailing" id="O2w-3e-mDv"/>
+                                            <constraint firstItem="lqS-ss-mU0" firstAttribute="leading" secondItem="EWY-dH-Wa0" secondAttribute="trailing" constant="8" symbolic="YES" id="VVq-R7-vgw"/>
                                             <constraint firstAttribute="bottom" secondItem="EWY-dH-Wa0" secondAttribute="bottom" id="Ybk-gt-Hi9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="pcZ-bm-wD5"/>
                                             <constraint firstItem="EWY-dH-Wa0" firstAttribute="firstBaseline" secondItem="qik-PV-DGZ" secondAttribute="baseline" constant="20" id="qrs-aN-kWp"/>
                                             <constraint firstItem="qik-PV-DGZ" firstAttribute="leading" secondItem="ppP-56-oxe" secondAttribute="leading" id="u95-dZ-6CD"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lqS-ss-mU0" secondAttribute="trailing" constant="20" symbolic="YES" id="z1c-ON-h5I"/>
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
