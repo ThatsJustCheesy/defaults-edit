@@ -8,6 +8,15 @@
 
 import Cocoa
 
+/// `NSNegateBoolean`, but accepts non-boolean values.
+@objc(NegateBoolean)
+class NegateBoolean: ValueTransformer {
+    override func transformedValue(_ value: Any?) -> Any? {
+        guard let boolean = value as? NSNumber else { return true }
+        return !boolean.boolValue
+    }
+}
+
 @objc(NotNilOrEmptyString)
 class NotNilOrEmptyString: ValueTransformer {
     override func transformedValue(_ value: Any?) -> Any? {

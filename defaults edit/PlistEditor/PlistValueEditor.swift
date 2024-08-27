@@ -39,7 +39,22 @@ class ValueEditorTabVC: NSTabViewController {
         bind(NSBindingName(rawValue: "selectedTabViewItemIndex"), to: representedObject!, withKeyPath: "selection.type", options: nil)
     }
     
+    private var previousValue: Any?
+    
     override var selectedTabViewItemIndex: Int {
+        willSet {
+            guard
+                shouldResetValueOnTypeChange,
+                let item = (self.representedObject as? NSObjectController)?.content as? PlistItem
+            else {
+                return
+            }
+            
+            previousValue = item.value
+            if newValue != selectedTabViewItemIndex {
+                item.value = PlistType(rawValue: newValue)!.defaultValue
+            }
+        }
         didSet {
             guard
                 shouldResetValueOnTypeChange,
@@ -47,33 +62,24 @@ class ValueEditorTabVC: NSTabViewController {
             else {
                 return
             }
+            
             switch (PlistType(rawValue: selectedTabViewItemIndex)!, PlistType(rawValue: oldValue)!) {
             case (.string, .integer), (.string, .real):
-                item.value = ((item.value as? NSNumber)?.stringValue ?? "") as AnyObject
+                item.value = ((previousValue as? NSNumber)?.stringValue ?? "") as AnyObject
             case (.string, _):
                 item.value = "" as AnyObject
             case (.boolean, _):
                 item.value = false as AnyObject
             case (.real, .integer):
-                item.value = ((item.value as? NSNumber)?.doubleValue ?? 0.0) as AnyObject
+                item.value = ((previousValue as? NSNumber)?.doubleValue ?? 0.0) as AnyObject
             case (.integer, .real):
-                item.value = ((item.value as? NSNumber)?.intValue ?? 0) as AnyObject
+                item.value = ((previousValue as? NSNumber)?.intValue ?? 0) as AnyObject
             case (.real, .string):
-                item.value = ((item.value as? NSString)?.doubleValue ?? 0.0) as AnyObject
+                item.value = ((previousValue as? NSString)?.doubleValue ?? 0.0) as AnyObject
             case (.integer, .string):
-                item.value = ((item.value as? NSString)?.intValue ?? 0) as AnyObject
-            case (.real, _), (.integer, _):
-                item.value = 0.0 as AnyObject
-            case (.date, _):
-                item.value = NSDate()
-            case (.data, _):
-                item.value = NSData()
-            case (.dictionary, _):
-                item.value = NSDictionary()
-            case (.array, _):
-                item.value = NSArray()
+                item.value = ((previousValue as? NSString)?.intValue ?? 0) as AnyObject
             default:
-                fatalError()
+                break
             }
         }
     }

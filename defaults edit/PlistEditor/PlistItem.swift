@@ -31,6 +31,27 @@ import Foundation
         }
     }
     
+    var defaultValue: AnyObject {
+        switch self {
+        case .string:
+            return "" as NSString
+        case .boolean:
+            return false as NSNumber
+        case .integer:
+            return 0 as NSNumber
+        case .real:
+            return 0.0 as NSNumber
+        case .date:
+            return Date() as NSDate
+        case .data:
+            return Data() as NSData
+        case .dictionary:
+            return [:] as NSDictionary
+        case .array:
+            return [] as NSArray
+        }
+    }
+    
     init?(string: String) {
         switch string {
         case "string":
