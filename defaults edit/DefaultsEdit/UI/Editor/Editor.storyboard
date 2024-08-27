@@ -11,14 +11,14 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="defaults_edit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="700" height="476"/>
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="612"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="750" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roj-9d-5U6">
-                                <rect key="frame" x="20" y="10" width="660" height="446"/>
+                                <rect key="frame" x="20" y="10" width="860" height="582"/>
                                 <subviews>
                                     <customView horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ppP-56-oxe" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="384" width="660" height="62"/>
+                                        <rect key="frame" x="0.0" y="520" width="860" height="62"/>
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
                                                 <rect key="frame" x="-2" y="32" width="129" height="30"/>
@@ -79,7 +79,7 @@
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
-                                        <rect key="frame" x="0.0" y="323" width="660" height="61"/>
+                                        <rect key="frame" x="0.0" y="459" width="860" height="61"/>
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
                                                 <rect key="frame" x="-2" y="38" width="50" height="20"/>
@@ -93,7 +93,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
-                                                <rect key="frame" x="54" y="40" width="606" height="21"/>
+                                                <rect key="frame" x="54" y="40" width="806" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="x9J-3Q-fA2"/>
                                                 </constraints>
@@ -152,7 +152,7 @@
                                         </constraints>
                                     </customView>
                                     <containerView translatesAutoresizingMaskIntoConstraints="NO" id="g16-fd-qaq" userLabel="Plist Editor">
-                                        <rect key="frame" x="0.0" y="0.0" width="660" height="323"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="860" height="459"/>
                                         <connections>
                                             <segue destination="Xf6-aB-qZx" kind="embed" identifier="" id="yGC-24-DRW"/>
                                         </connections>
@@ -200,7 +200,7 @@
                 <controllerPlaceholder storyboardName="Main" referencedIdentifier="OpenSheetViewController" id="5uI-u9-9NE" sceneMemberID="viewController"/>
                 <customObject id="pCw-yY-M1m" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="269" y="761"/>
+            <point key="canvasLocation" x="424" y="761"/>
         </scene>
         <!--PlistEdit-->
         <scene sceneID="1ou-Je-J0M">
@@ -208,7 +208,7 @@
                 <controllerPlaceholder storyboardName="PlistEdit" id="Xf6-aB-qZx" sceneMemberID="viewController"/>
                 <customObject id="toD-Aw-hxn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-271" y="1124"/>
+            <point key="canvasLocation" x="-271" y="1225"/>
         </scene>
     </scenes>
 </document>
