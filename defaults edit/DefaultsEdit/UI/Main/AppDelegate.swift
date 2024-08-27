@@ -42,7 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationOpenUntitledFile(_ sender: NSApplication) -> Bool {
-        return NSStoryboard(name: "Main", bundle: nil).instantiateInitialController() != nil
+        guard let wc = NSStoryboard(name: "Main", bundle: nil).instantiateInitialController() as? NSWindowController else {
+            return false
+        }
+        wc.showWindow(nil)
+        return true
     }
     
     func application(_ application: NSApplication, open urls: [URL]) {
