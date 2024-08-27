@@ -19,7 +19,7 @@ class FastHexTransformer: ValueTransformer {
     }
     
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        NSData(hexString: value as! String)
+        NSData(hexString: value as? String ?? "")
     }
     
 }
