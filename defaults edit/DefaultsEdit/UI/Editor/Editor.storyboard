@@ -63,6 +63,19 @@
                                                     </binding>
                                                 </connections>
                                             </button>
+                                            <button toolTip="Reveal plist file in Finder" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fmr-8H-3vT">
+                                                <rect key="frame" x="287" y="9" width="23" height="23"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="23" id="wid-Fmr-8H-3vT"/>
+                                                </constraints>
+                                                <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRevealFreestandingTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cel-Fmr-8H-3vT">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="smallSystem" size="13"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="revealPlistInFinder:" target="XfG-lQ-9wD" id="act-Fmr-8H-3vT"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="lqS-ss-mU0" firstAttribute="firstBaseline" secondItem="EWY-dH-Wa0" secondAttribute="firstBaseline" id="877-fY-klj"/>
@@ -76,6 +89,8 @@
                                             <constraint firstItem="EWY-dH-Wa0" firstAttribute="firstBaseline" secondItem="qik-PV-DGZ" secondAttribute="baseline" constant="20" id="qrs-aN-kWp"/>
                                             <constraint firstItem="qik-PV-DGZ" firstAttribute="leading" secondItem="ppP-56-oxe" secondAttribute="leading" id="u95-dZ-6CD"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lqS-ss-mU0" secondAttribute="trailing" constant="20" symbolic="YES" id="z1c-ON-h5I"/>
+                                            <constraint firstItem="Fmr-8H-3vT" firstAttribute="leading" secondItem="lqS-ss-mU0" secondAttribute="trailing" constant="8" id="con-Fmr-8H-3vT-lead"/>
+                                            <constraint firstItem="Fmr-8H-3vT" firstAttribute="centerY" secondItem="lqS-ss-mU0" secondAttribute="centerY" id="con-Fmr-8H-3vT-centerY"/>
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
@@ -211,4 +226,7 @@
             <point key="canvasLocation" x="-271" y="1225"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>
