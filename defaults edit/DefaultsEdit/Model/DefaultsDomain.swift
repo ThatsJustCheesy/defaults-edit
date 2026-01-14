@@ -125,6 +125,69 @@ class DefaultsDomain: NSObject {
         }
     }
 
+    var preferenceFileURL: URL? {
+        guard let domainName else {
+            return nil
+        }
+        
+        let preferenceFileName: String
+        switch impl {
+        case .bundle, .domainName:
+            preferenceFileName = "\(domainName).plist"
+        case .globalDomain:
+            preferenceFileName = ".GlobalPreferences.plist"
+        }
+        
+        let fileManager = FileManager.default
+        
+        let libraryDirs = fileManager.urls(for: .libraryDirectory, in: .allDomainsMask)
+        
+        for libraryDir in libraryDirs {
+            let preferencesDir = libraryDir.appendingPathComponent("Preferences", isDirectory: true)
+            let preferenceFile = preferencesDir.appendingPathComponent(preferenceFileName, isDirectory: false)
+            guard
+                let reachable = try? preferenceFile.checkResourceIsReachable(),
+                reachable
+            else {
+                continue
+            }
+            
+            return preferenceFile
+        }
+            
+        for libraryDir in libraryDirs {
+            let byHostPreferencesDir = libraryDir.appendingPathComponent("Preferences/ByHost", isDirectory: true)
+            guard
+                let files = try? fileManager.contentsOfDirectory(at: byHostPreferencesDir, includingPropertiesForKeys: nil),
+                let preferenceFile = files.first(where: {
+                    $0.lastPathComponent.hasPrefix(domainName) && $0.lastPathComponent.hasSuffix(".plist")
+                })
+            else {
+                continue
+            }
+            
+            return preferenceFile
+        }
+        
+        for libraryDir in libraryDirs {
+            let preferenceFile = libraryDir
+                .appendingPathComponent("Containers", isDirectory: true)
+                .appendingPathComponent(domainName, isDirectory: true)
+                .appendingPathComponent("Data/Library/Preferences", isDirectory: true)
+                .appendingPathComponent(preferenceFileName, isDirectory: false)
+            guard
+                let reachable = try? preferenceFile.checkResourceIsReachable(),
+                reachable
+            else {
+                continue
+            }
+            
+            return preferenceFile
+        }
+        
+        return nil
+    }
+
 }
 
 extension Bundle {

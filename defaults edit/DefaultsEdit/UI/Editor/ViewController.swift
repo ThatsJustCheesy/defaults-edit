@@ -237,6 +237,27 @@ class ViewController: NSViewController {
         NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
     }
     
+    /// Opens Finder to show the folder containing the .plist file for the current domain.
+    @IBAction func revealPlistInFinder(_ sender: Any?) {
+        guard let plistURL = representedDomain.preferenceFileURL else {
+            let alert = NSAlert()
+            alert.messageText = "Couldn't find a .plist file for this domain."
+            alert.runModal()
+            return
+        }
+        
+        guard NSWorkspace.shared.selectFile(plistURL.path, inFileViewerRootedAtPath: plistURL.deletingLastPathComponent().path) else {
+            let alert = NSAlert()
+            alert.messageText = "Couldn't reveal in Finder."
+            alert.informativeText = "Path: \(plistURL.path)"
+            alert.runModal()
+            return
+        }
+    }
+    
+    /// Text field for filtering the list of defaults.
+    @IBOutlet weak var filterTextField: NSTextField!
+    
     /// Shows the Open Defaults Domain sheet on the view's window, and closes
     /// the window if the user cancels the sheet.
     override func viewWillAppear() {
@@ -246,6 +267,8 @@ class ViewController: NSViewController {
             if self?.representedObject == nil {
                 // User canceled open sheet
                 self?.view.window?.close()
+            } else {
+                self?.view.window?.makeFirstResponder(self?.filterTextField)
             }
         }
     }
