@@ -139,26 +139,26 @@ class DefaultsDomain: NSObject {
         }
         
         let fileManager = FileManager.default
-        let homeDir = fileManager.homeDirectoryForCurrentUser
         
-        for preferencesDir in [
-            homeDir.appendingPathComponent("Library/Preferences"),
-            URL(fileURLWithPath: "/Library/Preferences"),
-        ] {
-            let preferenceFile = preferencesDir.appendingPathComponent(preferenceFileName)
-            guard fileManager.fileExists(atPath: preferenceFile.path) else {
+        let libraryDirs = fileManager.urls(for: .libraryDirectory, in: .allDomainsMask)
+        
+        for libraryDir in libraryDirs {
+            let preferencesDir = libraryDir.appendingPathComponent("Preferences", isDirectory: true)
+            let preferenceFile = preferencesDir.appendingPathComponent(preferenceFileName, isDirectory: false)
+            guard
+                let reachable = try? preferenceFile.checkResourceIsReachable(),
+                reachable
+            else {
                 continue
             }
             
             return preferenceFile
-            
         }
-        
-        for preferencesDir in [
-            homeDir.appendingPathComponent("Library/Preferences/ByHost", isDirectory: true),
-        ] {
+            
+        for libraryDir in libraryDirs {
+            let byHostPreferencesDir = libraryDir.appendingPathComponent("Preferences/ByHost", isDirectory: true)
             guard
-                let files = try? fileManager.contentsOfDirectory(at: preferencesDir, includingPropertiesForKeys: nil),
+                let files = try? fileManager.contentsOfDirectory(at: byHostPreferencesDir, includingPropertiesForKeys: nil),
                 let preferenceFile = files.first(where: {
                     $0.lastPathComponent.hasPrefix(domainName) && $0.lastPathComponent.hasSuffix(".plist")
                 })
@@ -169,7 +169,7 @@ class DefaultsDomain: NSObject {
             return preferenceFile
         }
         
-        for libraryDir in fileManager.urls(for: .libraryDirectory, in: .allDomainsMask) {
+        for libraryDir in libraryDirs {
             let preferenceFile = libraryDir
                 .appendingPathComponent("Containers", isDirectory: true)
                 .appendingPathComponent(domainName, isDirectory: true)

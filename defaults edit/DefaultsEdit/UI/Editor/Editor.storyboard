@@ -20,7 +20,7 @@
                                     <customView horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ppP-56-oxe" userLabel="Title">
                                         <rect key="frame" x="0.0" y="522" width="860" height="62"/>
                                         <subviews>
-                                            <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
+                                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="499" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qik-PV-DGZ">
                                                 <rect key="frame" x="-2" y="32" width="129" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="xKE-ce-c18"/>
@@ -34,7 +34,7 @@
                                                     <binding destination="XfG-lQ-9wD" name="value" keyPath="representedObject.localizedName" id="EjM-qr-MzE"/>
                                                 </connections>
                                             </textField>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWY-dH-Wa0">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWY-dH-Wa0">
                                                 <rect key="frame" x="-2" y="0.0" width="180" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="qgU-tf-vrK"/>
@@ -93,7 +93,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="C1S-HP-4HT" userLabel="View Settings">
                                         <rect key="frame" x="0.0" y="459" width="860" height="63"/>
                                         <subviews>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5MX-bq-My6">
                                                 <rect key="frame" x="-2" y="40" width="50" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="W1z-lW-zsB"/>
@@ -104,7 +104,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WoP-6k-gog">
                                                 <rect key="frame" x="54" y="42" width="806" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="x9J-3Q-fA2"/>
@@ -141,7 +141,7 @@
                                                     </binding>
                                                 </connections>
                                             </segmentedControl>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-CX-UyB">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-CX-UyB">
                                                 <rect key="frame" x="-2" y="14" width="90" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="View defaults:" id="vxz-f6-7Uh">
                                                     <font key="font" metaFont="smallSystem" size="13"/>
