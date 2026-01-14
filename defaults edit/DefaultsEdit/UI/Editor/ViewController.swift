@@ -27,20 +27,110 @@ protocol DefaultsModifier {
     
 }
 
+struct UserDefaultsDomain: DefaultsModifier {
+    let domainName: String
+    private let userDefaults: UserDefaults
+    
+    init(domainName: String) {
+        self.domainName = domainName
+        self.userDefaults = UserDefaults(suiteName: domainName)!
+    }
+    
+    func add(_ item: PlistItem) {
+        let (key, value) = item.persistentRepresentation
+        
+        // Write using defaults command for immediate disk persistence
+        writeValue(value, forKey: key)
+        synchronize()
+    }
+    
+    func removeItems(for keys: Set<String>) {
+        for key in keys {
+            deleteKey(key)
+        }
+        synchronize()
+    }
+    
+    func synchronize() {
+        // Flush cfprefsd cache to disk
+        let appID = domainName as CFString
+        CFPreferencesAppSynchronize(appID)
+    }
+    
+    func dictionaryRepresentation() -> [String: Any] {
+        return userDefaults.dictionaryRepresentation()
+    }
+    
+    private func writeValue(_ value: Any?, forKey key: String) {
+        guard let value = value else { return }
+        
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/defaults")
+        
+        var arguments = ["write", domainName, key]
+        
+        // Determine type and format value
+        switch value {
+        case let string as String:
+            arguments += ["-string", string]
+        case let number as NSNumber:
+            if NSStringFromClass(type(of: number)).contains("Bool") {
+                arguments += ["-bool", number.boolValue ? "true" : "false"]
+            } else if NSString(string: number.stringValue).range(of: ".").location != NSNotFound {
+                arguments += ["-float", number.stringValue]
+            } else {
+                arguments += ["-int", number.stringValue]
+            }
+        case let date as Date:
+            arguments += ["-date", ISO8601DateFormatter().string(from: date)]
+        case let data as Data:
+            arguments += ["-data", data.base64EncodedString()]
+        case let dict as [String: Any]:
+            // For complex types, use UserDefaults then force sync
+            userDefaults.set(dict, forKey: key)
+            let _: Bool = userDefaults.synchronize()
+            return
+        case let array as [Any]:
+            // For complex types, use UserDefaults then force sync
+            userDefaults.set(array, forKey: key)
+            let _: Bool = userDefaults.synchronize()
+            return
+        default:
+            userDefaults.set(value, forKey: key)
+            let _: Bool = userDefaults.synchronize()
+            return
+        }
+        
+        process.arguments = arguments
+        try? process.run()
+        process.waitUntilExit()
+    }
+    
+    private func deleteKey(_ key: String) {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/defaults")
+        process.arguments = ["delete", domainName, key]
+        try? process.run()
+        process.waitUntilExit()
+    }
+}
+
 extension UserDefaults: DefaultsModifier {
     
     func add(_ item: PlistItem) {
         let (key, value) = item.persistentRepresentation
-        set(value ?? "", forKey: key)
+        set(value, forKey: key)
+        let _: Bool = self.synchronize()
     }
     
     func removeItems(for keys: Set<String>) {
         let nullMappings = keys.map { ($0, NSNull() as Any) }
         setValuesForKeys([String : Any](uniqueKeysWithValues: nullMappings))
+        let _: Bool = self.synchronize()
     }
     
     func synchronize() {
-        let _: Bool = synchronize()
+        let _: Bool = self.synchronize()
     }
     
 }
@@ -124,7 +214,7 @@ class ViewController: NSViewController {
         case UserDefaults.globalDomain:
             return GlobalDefaults()
         default:
-            return UserDefaults(suiteName: representedDomain.domainName)!
+            return UserDefaultsDomain(domainName: representedDomain.domainName!)
         }
     }
     
@@ -162,6 +252,38 @@ class ViewController: NSViewController {
     /// A cache of defaults fetched for the "Set in Domain" view.
     private var cachedDefaultsSetInDomain: [String : Any]?
     
+    /// Attempts to deserialize Data objects that contain structured data (JSON/plist)
+    private func deserializeDataIfPossible(_ value: Any) -> Any {
+        guard let data = value as? Data else {
+            return value
+        }
+        
+        // Try to deserialize as property list first
+        if let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) {
+            return deserializeNestedData(plist)
+        }
+        
+        // Try to deserialize as JSON
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+            return deserializeNestedData(json)
+        }
+        
+        // Return original data if deserialization failed
+        return data
+    }
+    
+    /// Recursively deserializes Data objects in nested structures
+    private func deserializeNestedData(_ value: Any) -> Any {
+        switch value {
+        case let dict as [String: Any]:
+            return dict.mapValues { deserializeDataIfPossible($0) }
+        case let array as [Any]:
+            return array.map { deserializeDataIfPossible($0) }
+        default:
+            return deserializeDataIfPossible(value)
+        }
+    }
+    
     /// Re-fetches defaults for the "Set in Domain" view.
     /// This is currently accomplished with a `defaults export` command.
     private func fetchDefaultsSetInDomain() {
@@ -174,7 +296,9 @@ class ViewController: NSViewController {
         
         runAsynchronousDefaultsCommand(arguments: ["export", representedDomain.domainName!, "-"]) { process, data in
             if process.terminationStatus == 0 {
-                self.unfilteredListedDefaults = try! PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String : Any]
+                let rawDefaults = try! PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String : Any]
+                // Deserialize any Data values that contain structured data
+                self.unfilteredListedDefaults = rawDefaults.mapValues { self.deserializeDataIfPossible($0) }
             } else {
                 self.unfilteredListedDefaults = [:]
             }
@@ -186,7 +310,16 @@ class ViewController: NSViewController {
     /// Re-fetches defaults for the "Effective in Domain" view.
     private func fetchDefaultsEffectiveInDomain() {
         defaultsEffectiveInDomain.synchronize()
-        unfilteredListedDefaults = (defaultsEffectiveInDomain as? UserDefaults)?.dictionaryRepresentation() ?? listedDefaults
+        let rawDefaults: [String: Any]
+        if let userDefaults = defaultsEffectiveInDomain as? UserDefaults {
+            rawDefaults = userDefaults.dictionaryRepresentation()
+        } else if let userDefaultsDomain = defaultsEffectiveInDomain as? UserDefaultsDomain {
+            rawDefaults = userDefaultsDomain.dictionaryRepresentation()
+        } else {
+            rawDefaults = listedDefaults
+        }
+        // Deserialize any Data values that contain structured data
+        unfilteredListedDefaults = rawDefaults.mapValues { self.deserializeDataIfPossible($0) }
     }
     
     /// Clears cached defaults so that they must be reloaded from source.
