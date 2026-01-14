@@ -67,19 +67,6 @@ struct GlobalDefaults: DefaultsModifier {
 /// Controls a defaults domain editor view.
 class ViewController: NSViewController {
     
-    // MARK: - Constants
-    
-    /// Standard paths where macOS stores preferences
-    private struct PreferencesPaths {
-        static let userPreferencesSubpath = "Library/Preferences"
-        static let byHostSubpath = "Library/Preferences/ByHost"
-        static let managedPreferencesSubpath = "Library/Managed Preferences"
-        static let systemPreferences = "/Library/Preferences"
-        static let systemManagedPreferences = "/Library/Managed Preferences"
-        static let containersSubpath = "Library/Containers"
-        static let containerDataPreferencesSubpath = "Data/Library/Preferences"
-    }
-    
     /// The defaults domain represented by this editor view.
     private var representedDomain: DefaultsDomain! {
         return representedObject as? DefaultsDomain
@@ -250,83 +237,26 @@ class ViewController: NSViewController {
         NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
     }
     
-    /// Searches for a plist file in all standard preferences directories.
-    private func findPlistFile(for domainName: String) -> URL? {
-        let fileName: String
-        if domainName == UserDefaults.globalDomain {
-            fileName = ".GlobalPreferences.plist"
-        } else {
-            fileName = "\(domainName).plist"
+    /// Opens Finder to show the folder containing the .plist file for the current domain.
+    @IBAction func revealPlistInFinder(_ sender: Any?) {
+        guard let plistURL = representedDomain.preferenceFileURL else {
+            let alert = NSAlert()
+            alert.messageText = "Couldn't find a .plist file for this domain."
+            alert.runModal()
+            return
         }
         
-        let fileManager = FileManager.default
-        let homeDir = fileManager.homeDirectoryForCurrentUser
-        
-        // All possible preference directories to search
-        let searchPaths: [URL] = [
-            homeDir.appendingPathComponent(PreferencesPaths.userPreferencesSubpath),
-            homeDir.appendingPathComponent(PreferencesPaths.byHostSubpath),
-            homeDir.appendingPathComponent(PreferencesPaths.managedPreferencesSubpath),
-            URL(fileURLWithPath: PreferencesPaths.systemPreferences),
-            URL(fileURLWithPath: PreferencesPaths.systemManagedPreferences),
-            homeDir.appendingPathComponent(PreferencesPaths.containersSubpath)
-        ]
-        
-        for searchPath in searchPaths {
-            // Try exact file name first
-            let exactPath = searchPath.appendingPathComponent(fileName)
-            if fileManager.fileExists(atPath: exactPath.path) {
-                return exactPath
-            }
-            
-            // For ByHost and Containers, search with prefix pattern
-            if fileManager.fileExists(atPath: searchPath.path),
-               let files = try? fileManager.contentsOfDirectory(atPath: searchPath.path) {
-                // Look for files matching the domain name pattern
-                if let matchingFile = files.first(where: { file in
-                    // Match exact name or with UUID suffix (ByHost pattern)
-                    return file == fileName || 
-                           (file.hasPrefix(domainName) && file.hasSuffix(".plist"))
-                }) {
-                    return searchPath.appendingPathComponent(matchingFile)
-                }
-                
-                // Special handling for Containers directory - search recursively
-                if searchPath.lastPathComponent == "Containers" {
-                    for containerDir in files {
-                        let containerPrefs = searchPath
-                            .appendingPathComponent(containerDir)
-                            .appendingPathComponent(PreferencesPaths.containerDataPreferencesSubpath)
-                        let containerFile = containerPrefs.appendingPathComponent(fileName)
-                        if fileManager.fileExists(atPath: containerFile.path) {
-                            return containerFile
-                        }
-                    }
-                }
-            }
+        guard NSWorkspace.shared.selectFile(plistURL.path, inFileViewerRootedAtPath: NSHomeDirectory()) else {
+            let alert = NSAlert()
+            alert.messageText = "Couldn't reveal in Finder."
+            alert.informativeText = "Path: \(plistURL.path)"
+            alert.runModal()
+            return
         }
-        
-        return nil
     }
     
-    /// Opens Finder to show the folder containing the plist file for the current domain.
-    @IBAction func revealPlistInFinder(_ sender: Any?) {
-        guard let domainName = representedDomain.domainName else {
-            return
-        }
-        
-        // Search for the plist file in all standard locations
-        if let plistPath = findPlistFile(for: domainName) {
-            let parentDir = plistPath.deletingLastPathComponent()
-            NSWorkspace.shared.selectFile(plistPath.path, inFileViewerRootedAtPath: parentDir.path)
-            return
-        }
-        
-        // If file doesn't exist yet, open the default user preferences directory
-        let defaultPrefsDir = FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent(PreferencesPaths.userPreferencesSubpath)
-        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: defaultPrefsDir.path)
-    }
+    /// Text field for filtering the list of defaults.
+    @IBOutlet weak var filterTextField: NSTextField!
     
     /// Shows the Open Defaults Domain sheet on the view's window, and closes
     /// the window if the user cancels the sheet.
@@ -337,6 +267,8 @@ class ViewController: NSViewController {
             if self?.representedObject == nil {
                 // User canceled open sheet
                 self?.view.window?.close()
+            } else {
+                self?.view.window?.makeFirstResponder(self?.filterTextField)
             }
         }
     }
