@@ -246,7 +246,7 @@ class ViewController: NSViewController {
             return
         }
         
-        guard NSWorkspace.shared.selectFile(plistURL.path, inFileViewerRootedAtPath: NSHomeDirectory()) else {
+        guard NSWorkspace.shared.selectFile(plistURL.path, inFileViewerRootedAtPath: plistURL.deletingLastPathComponent().path) else {
             let alert = NSAlert()
             alert.messageText = "Couldn't reveal in Finder."
             alert.informativeText = "Path: \(plistURL.path)"
